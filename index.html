@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Xintong Lin — Product Designer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page">
+    <header>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="index.html" class="nav__logo" aria-label="Home">
+          <img src="assets/logo.png" alt="Xintong Lin logo">
+        </a>
+        <ul class="nav__links">
+          <li><a href="index.html#work">Work</a></li>
+          <li><a href="art.html">Art</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="https://drive.google.com/file/d/18TPc3mJHjs6lvnnvbrQjFrKY6BbmmnCj/view?usp=sharing" target="_blank" rel="noopener noreferrer">Resume</a></li>
+        </ul>
+      </nav>
+      <div class="nav-divider"><hr></div>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero__content">
+          <h1 id="hero-title" class="hero__title">Hi, I'm Xintong!</h1>
+          <p class="hero__intro">
+            <span class="accent">Product designer</span> @
+            <span>Cornell</span>, shaping
+            <span class="accent">human insights</span>
+            into
+            <span class="accent">intuitive experiences</span>
+            through a thoughtful
+            <span>human-centered</span>
+            approach
+          </p>
+          <div class="hero__status">
+            <span>Currently designing @</span>
+            <div class="hero__companies">
+              <a href="https://www.designconsultingcornell.com/" target="_blank" rel="noopener noreferrer" aria-label="Design Consulting Cornell">
+                <img src="assets/company-1.png" alt="">
+              </a>
+              <a href="https://new.cornelldti.org/" target="_blank" rel="noopener noreferrer" aria-label="Cornell DTI">
+                <img src="assets/company-2.png" alt="">
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero__doodles" aria-hidden="true">
+          <div class="sticker-board__card">
+            <span class="hero__doodles-hint">Drag to move!</span>
+          </div>
+          <img class="hero__doodle hero__doodle--strawberry sticker" src="assets/doodle-strawberry.png" alt="" draggable="false">
+          <img class="hero__doodle hero__doodle--heart sticker" src="assets/doodle-heart.png" alt="" draggable="false">
+          <img class="hero__doodle hero__doodle--clover sticker" src="assets/doodle-clover.png" alt="" draggable="false">
+          <img class="hero__doodle hero__doodle--flower sticker" src="assets/doodle-flower.png" alt="" draggable="false">
+        </div>
+      </section>
+
+      <section id="work" class="projects" aria-label="Featured work">
+        <div class="projects__grid">
+          <div class="projects__row">
+            <a href="projects/whim.html" class="project-card">
+              <div class="project-card__image">
+                <img src="assets/project-whim-card.png" alt="Whim app mockup showing two phone screens">
+              </div>
+              <div class="project-card__meta">
+                <h2 class="project-card__title">Whim</h2>
+                <span class="project-card__tag">DCC | Spring 2026</span>
+              </div>
+              <p class="project-card__description">
+                Designed a campus marketplace app that helps students discover student-run businesses through a more connected campus community
+              </p>
+            </a>
+
+            <a href="projects/cuapts.html" class="project-card">
+              <div class="project-card__image">
+                <img src="assets/project-cuapts-card.png" alt="CUApts housing platform on laptop and phone">
+              </div>
+              <div class="project-card__meta">
+                <h2 class="project-card__title">CUApts</h2>
+                <span class="project-card__tag">DTI | Fall 2025</span>
+              </div>
+              <p class="project-card__description">
+                Led the design of a 0→1 personalized folders feature for organizing and comparing apartments on a housing platform for students
+              </p>
+            </a>
+          </div>
+
+          <div class="projects__row">
+            <a href="https://devpost.com/software/ebb-and-flow" target="_blank" rel="noopener noreferrer" class="project-card">
+              <div class="project-card__image">
+                <img src="assets/project-ebb-flow-card.png" alt="Ebb and Flow wearable and tablet interface">
+              </div>
+              <div class="project-card__meta">
+                <h2 class="project-card__title">Ebb &amp; Flow</h2>
+                <span class="project-card__tag">FigBuild Design-a-ton | Spring 2026</span>
+              </div>
+              <p class="project-card__description">
+                Designed a privacy-centered wearable and tablet experience that helps people understand subtle shifts in daily rhythms and time perception
+              </p>
+            </a>
+
+            <a href="projects/cmsx.html" class="project-card">
+              <div class="project-card__image">
+                <img src="assets/project-cmsx.png" alt="Cornell CMSX course management dashboard">
+              </div>
+              <div class="project-card__meta">
+                <h2 class="project-card__title">Cornell CMSX</h2>
+                <span class="project-card__tag">CMSX | Spring 2026</span>
+              </div>
+              <p class="project-card__description">
+                Designed a course management experience that helps instructors and TAs navigate course data, manage classes, and access key actions
+              </p>
+            </a>
+          </div>
+
+          <div class="projects__row">
+            <a href="https://gdiac.cs.cornell.edu/gdiac/showcase/games/crush_the_hero/" target="_blank" rel="noopener noreferrer" class="project-card">
+              <div class="project-card__image">
+                <img src="assets/project-crush-card.png" alt="Crush the Hero game on MacBook mockup">
+              </div>
+              <div class="project-card__meta">
+                <h2 class="project-card__title">Crush the Hero</h2>
+                <span class="project-card__tag">Game Design | Spring 2026</span>
+              </div>
+              <p class="project-card__description">
+                Led the UX design for Crush the Hero, a turn based strategy game presented at the 2026 Cornell GDIAC Showcase
+              </p>
+            </a>
+
+            <a href="projects/focusflow.html" class="project-card">
+              <div class="project-card__image">
+                <img src="assets/project-focusflow-card.png" alt="Focusflow study app on two phone mockups">
+              </div>
+              <div class="project-card__meta">
+                <h2 class="project-card__title">Focusflow</h2>
+                <span class="project-card__tag">Independent Case Study | Summer 2025</span>
+              </div>
+              <p class="project-card__description">
+                Designed a calming study app that helps college students stay focused and reflect on their progress
+              </p>
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <hr class="footer__divider">
+      <div class="footer__content">
+        <div class="footer__top">
+          <p class="footer__heading">Thanks for visiting!</p>
+          <div class="footer__social">
+            <a href="https://www.linkedin.com/in/xintong-lin-930272238/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+              <img class="icon-linkedin" src="assets/icon-linkedin.png" alt="">
+            </a>
+            <a href="mailto:xl966@cornell.edu" aria-label="Email">
+              <img class="icon-email" src="assets/icon-email.png" alt="">
+            </a>
+          </div>
+        </div>
+        <div class="footer__bottom">
+          <p>Lets keep in touch :)</p>
+          <p class="footer__copyright">Copyright © 2026 Xintong Lin</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

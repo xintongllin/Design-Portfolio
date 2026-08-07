@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CUApts — Xintong Lin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body class="page--white">
+  <div class="page">
+    <header>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="../index.html" class="nav__logo" aria-label="Home">
+          <img src="../assets/logo.png" alt="Xintong Lin logo">
+        </a>
+        <ul class="nav__links">
+          <li><a href="../index.html#work" class="nav__link--active" aria-current="page">Work</a></li>
+          <li><a href="../art.html">Art</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="https://drive.google.com/file/d/18TPc3mJHjs6lvnnvbrQjFrKY6BbmmnCj/view?usp=sharing" target="_blank" rel="noopener noreferrer">Resume</a></li>
+        </ul>
+      </nav>
+      <div class="nav-divider"><hr></div>
+    </header>
+
+    <main class="cuapts-case-study">
+      <div class="cuapts-hero-band">
+        <div class="cuapts-hero-band__inner">
+          <div class="cuapts-hero-content">
+            <img src="../assets/cuapts-hero.png" alt="CUApts website homepage and saved folders page, with the CUApts logo">
+          </div>
+        </div>
+      </div>
+
+      <div class="cuapts-body">
+        <div class="cuapts-meta-block">
+          <div class="cuapts-meta-text">
+            <h1 class="cuapts-title">CUApts: Saved Folders</h1>
+            <div class="cuapts-meta-row">
+              <div class="cuapts-meta-item">
+                <p class="cuapts-meta-label">Role</p>
+                <p class="cuapts-meta-value">Product Designer</p>
+              </div>
+              <div class="cuapts-meta-item">
+                <p class="cuapts-meta-label">Timeline</p>
+                <p class="cuapts-meta-value">4 Months</p>
+              </div>
+              <div class="cuapts-meta-item">
+                <p class="cuapts-meta-label">Team</p>
+                <div class="cuapts-meta-value cuapts-meta-value--list">
+                  <p>2 Project Managers</p>
+                  <p>2 Product Designers</p>
+                  <p>4 Developers</p>
+                  <p>2 Product Marketers</p>
+                </div>
+              </div>
+              <div class="cuapts-meta-item">
+                <p class="cuapts-meta-label">Platform</p>
+                <p class="cuapts-meta-value">Figma, Figjam</p>
+              </div>
+            </div>
+          </div>
+          <hr class="cuapts-meta-divider">
+        </div>
+
+        <!-- Context -->
+        <section class="cuapts-section" style="margin-top: 49px;">
+          <div class="cuapts-section-head">
+            <p class="cuapts-eyebrow"><img src="../assets/cuapts-eyebrow-icon.png" alt="">Context</p>
+            <h2 class="cuapts-h2">What is CUApts</h2>
+          </div>
+          <p class="cuapts-body-text">A tool that helps Cornell students navigate off-campus housing by browsing listings, comparing options, and reading real apartment reviews. It brings housing information into one place so students can make more informed decisions about where to live in Ithaca.</p>
+          <div class="cuapts-context-image">
+            <img src="../assets/cuapts-what-is.png" alt="CUApts app screenshot">
+          </div>
+          <p class="cuapts-body-text">In Fall 2025, CUApts aims to move beyond housing discovery toward a more holistic housing planning experience. I designed a Saved Folders system that allows students to organize apartments, add notes, and share folders with roommates, supporting more personalized and collaborative decision-making.</p>
+        </section>
+
+        <!-- Problem -->
+        <section class="cuapts-section">
+          <div class="cuapts-section-head">
+            <p class="cuapts-eyebrow"><img src="../assets/cuapts-eyebrow-icon.png" alt="">Problem</p>
+            <h2 class="cuapts-h2">Students need more than saved listings</h2>
+          </div>
+          <p class="cuapts-body-text">While CUApts makes it easy to discover and bookmark apartments, it offers limited support once students start comparing options and coordinating with roommates. As a result, the housing search process lacks:</p>
+          <div class="cuapts-benefit-row">
+            <div class="cuapts-benefit-item">
+              <img src="../assets/cuapts-icon-organization.svg" alt="" class="cuapts-benefit-icon">
+              <p class="cuapts-benefit-title">Organization</p>
+              <p class="cuapts-benefit-desc">Saved apartments live in a single flat list, making it hard to categorize, prioritize, or track progress.</p>
+            </div>
+            <div class="cuapts-benefit-item">
+              <img src="../assets/cuapts-icon-collaboration.svg" alt="" class="cuapts-benefit-icon">
+              <p class="cuapts-benefit-title">Collaboration</p>
+              <p class="cuapts-benefit-desc">Students can’t share saved apartments, leave notes, or coordinate decisions with roommates in one place.</p>
+            </div>
+            <div class="cuapts-benefit-item">
+              <img src="../assets/cuapts-icon-planning.svg" alt="" class="cuapts-benefit-icon">
+              <p class="cuapts-benefit-title">Planning</p>
+              <p class="cuapts-benefit-desc">Bookmarks lack tools for comparison, pros and cons, or decision status, pushing users to external tools.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- User Research -->
+        <section class="cuapts-section">
+          <div class="cuapts-section-head">
+            <p class="cuapts-eyebrow"><img src="../assets/cuapts-eyebrow-icon.png" alt="">User Research</p>
+            <h2 class="cuapts-h2">Students struggle to organize saved apartments</h2>
+          </div>
+          <p class="cuapts-body-text">From my research, I found that students struggle to organize and compare apartment options over time. Many rely on external tools to manage their search and coordinate with roommates.</p>
+          <div class="cuapts-research-row">
+            <div class="cuapts-research-image">
+              <img src="../assets/cuapts-research-screenshot.png" alt="Apartment review screenshot">
+            </div>
+            <div class="cuapts-quotes">
+              <img src="../assets/cuapts-quotes.png" alt="Two user quotes about losing track of saved apartments and coordinating with roommates">
+            </div>
+          </div>
+        </section>
+
+        <!-- Market Research -->
+        <section class="cuapts-section">
+          <div class="cuapts-section-head">
+            <p class="cuapts-eyebrow"><img src="../assets/cuapts-eyebrow-icon.png" alt="">Market Research</p>
+            <h2 class="cuapts-h2">Learning from existing housing platforms</h2>
+          </div>
+          <p class="cuapts-body-text">Looking at how other platforms manage saved lists and sharing helped identify opportunities to improve student collaboration.</p>
+          <div class="cuapts-market-row">
+            <div class="cuapts-market-col">
+              <img src="../assets/cuapts-logo-booking.png" alt="Booking.com logo" class="cuapts-market-logo">
+              <p class="cuapts-market-name">Booking.com</p>
+              <div class="cuapts-market-point"><img src="../assets/whim-icon-tick-sm.svg" alt="" class="cuapts-market-point-icon"><p>Filters &amp; sorting</p></div>
+              <div class="cuapts-market-point"><img src="../assets/whim-icon-tick-sm.svg" alt="" class="cuapts-market-point-icon"><p>Multiple folders</p></div>
+              <div class="cuapts-market-point"><img src="../assets/cuapts-icon-x.svg" alt="" class="cuapts-market-point-icon"><p>No collaboration tools</p></div>
+            </div>
+            <div class="cuapts-market-col">
+              <img src="../assets/cuapts-photo-airbnb.png" alt="Airbnb app screenshot" class="cuapts-market-logo cuapts-market-logo--photo">
+              <p class="cuapts-market-name">Airbnb</p>
+              <div class="cuapts-market-point"><img src="../assets/whim-icon-tick-sm.svg" alt="" class="cuapts-market-point-icon"><p>Multiple wishlists</p></div>
+              <div class="cuapts-market-point"><img src="../assets/whim-icon-tick-sm.svg" alt="" class="cuapts-market-point-icon"><p>Shared collaboration</p></div>
+              <div class="cuapts-market-point"><img src="../assets/cuapts-icon-x.svg" alt="" class="cuapts-market-point-icon"><p>Hard to move listings</p></div>
+            </div>
+            <div class="cuapts-market-col">
+              <img src="../assets/cuapts-photo-zillow.png" alt="Zillow app screenshot" class="cuapts-market-logo cuapts-market-logo--photo">
+              <p class="cuapts-market-name">Zillow</p>
+              <div class="cuapts-market-point"><img src="../assets/whim-icon-tick-sm.svg" alt="" class="cuapts-market-point-icon"><p>Strong filters for saves</p></div>
+              <div class="cuapts-market-point"><img src="../assets/whim-icon-tick-sm.svg" alt="" class="cuapts-market-point-icon"><p>Clear tags for comparison</p></div>
+              <div class="cuapts-market-point"><img src="../assets/cuapts-icon-x.svg" alt="" class="cuapts-market-point-icon"><p>Limited organization</p></div>
+            </div>
+          </div>
+          <p class="cuapts-body-text">The main insight is that these platforms prioritize individual organization over collaborative planning before housing decisions.</p>
+        </section>
+
+        <!-- Key Insights -->
+        <section class="cuapts-section">
+          <div class="cuapts-section-head">
+            <p class="cuapts-eyebrow"><img src="../assets/cuapts-eyebrow-icon.png" alt="">Key Insights</p>
+            <h2 class="cuapts-h2">Housing decisions need shared planning</h2>
+          </div>
+          <p class="cuapts-body-text">Based on an evaluation of CUApts’ current features and common student housing behaviors, these insights highlight key gaps in how users organize, plan, and decide on housing together.</p>
+          <div class="cuapts-insight-row">
+            <div class="cuapts-insight-card">
+              <img src="../assets/cuapts-icon-shared-decision.svg" alt="" class="cuapts-insight-icon">
+              <p class="cuapts-insight-title">Housing is a shared decision</p>
+              <p class="cuapts-insight-desc">Students rarely choose apartments alone and need tools that support coordination with roommates.</p>
+            </div>
+            <div class="cuapts-insight-card">
+              <img src="../assets/cuapts-icon-time.svg" alt="" class="cuapts-insight-icon">
+              <p class="cuapts-insight-title">Decisions unfold over time</p>
+              <p class="cuapts-insight-desc">Students revisit listings repeatedly and need ways to compare, update, and track options across weeks.</p>
+            </div>
+            <div class="cuapts-insight-card">
+              <img src="../assets/cuapts-icon-tools.svg" alt="" class="cuapts-insight-icon">
+              <p class="cuapts-insight-title">Students need better tools</p>
+              <p class="cuapts-insight-desc">When planning tools are missing, students rely on external apps like notes or group chats.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Key Design Decisions -->
+        <section class="cuapts-section">
+          <div class="cuapts-section-head">
+            <p class="cuapts-eyebrow"><img src="../assets/cuapts-eyebrow-icon.png" alt="">Key Design Decisions</p>
+            <h2 class="cuapts-h2">Save to folder</h2>
+          </div>
+          <p class="cuapts-body-text">To support the new Saved Folders feature, I explored different interaction patterns for saving apartments. The goal was to allow users to save listings quickly while minimizing confusion and accidental actions during browsing.</p>
+
+          <div class="cuapts-iteration-row">
+            <div class="cuapts-iteration-image">
+              <img src="../assets/cuapts-wireframe-checkbox.png" alt="Checkbox save interaction wireframe">
+            </div>
+            <div class="cuapts-iteration-text">
+              <p class="cuapts-iteration-heading">Checkbox exploration</p>
+              <div class="cuapts-iteration-point">
+                <img src="../assets/whim-icon-tick-sm.svg" alt="" class="cuapts-iteration-icon">
+                <p>Supports saving to multiple folders at once</p>
+              </div>
+              <div class="cuapts-iteration-point">
+                <img src="../assets/cuapts-icon-x.svg" alt="" class="cuapts-iteration-icon">
+                <p>Less familiar pattern for housing apps</p>
+              </div>
+              <div class="cuapts-iteration-point">
+                <img src="../assets/cuapts-icon-x.svg" alt="" class="cuapts-iteration-icon">
+                <p>Higher risk of accidental selection during browsing</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="cuapts-iteration-row">
+            <div class="cuapts-iteration-image">
+              <img src="../assets/cuapts-wireframe-saved-button.png" alt="Saved button interaction wireframe">
+            </div>
+            <div class="cuapts-iteration-text">
+              <p class="cuapts-iteration-heading">Saved button (final)</p>
+              <div class="cuapts-iteration-point">
+                <img src="../assets/whim-icon-tick-sm.svg" alt="" class="cuapts-iteration-icon">
+                <p>Provides clear status feedback (saved vs. unsaved)</p>
+              </div>
+              <div class="cuapts-iteration-point">
+                <img src="../assets/whim-icon-tick-sm.svg" alt="" class="cuapts-iteration-icon">
+                <p>Matches familiar save interactions across housing and shopping apps</p>
+              </div>
+              <div class="cuapts-iteration-point">
+                <img src="../assets/whim-icon-tick-sm.svg" alt="" class="cuapts-iteration-icon">
+                <p>Reduces accidental actions during fast scrolling</p>
+              </div>
+            </div>
+          </div>
+
+          <p class="cuapts-body-text">I chose the Save button interaction because it balanced clarity, familiarity, and error prevention, which were more critical than multi-folder saving at the moment of discovery.</p>
+
+          <div class="cuapts-subsection">
+            <h3 class="cuapts-h2">Save to new folder</h3>
+
+            <div class="cuapts-iteration-row">
+              <div class="cuapts-iteration-image">
+                <img src="../assets/cuapts-wireframe-inline-input.png" alt="Inline folder name input wireframe">
+              </div>
+              <div class="cuapts-iteration-text">
+                <p class="cuapts-iteration-heading">Clicking save to new folder</p>
+                <div class="cuapts-iteration-point">
+                  <img src="../assets/whim-icon-tick-sm.svg" alt="" class="cuapts-iteration-icon">
+                  <p>Keeps users in context without leaving the current view</p>
+                </div>
+                <div class="cuapts-iteration-point">
+                  <img src="../assets/cuapts-icon-x.svg" alt="" class="cuapts-iteration-icon">
+                  <p>UI change feels unexpected and visually disconnected from the action</p>
+                </div>
+                <div class="cuapts-iteration-point">
+                  <img src="../assets/cuapts-icon-x.svg" alt="" class="cuapts-iteration-icon">
+                  <p>Inline text input increases risk of hesitation or misclicks during saving</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="cuapts-iteration-row">
+              <div class="cuapts-iteration-image">
+                <img src="../assets/cuapts-wireframe-modal.png" alt="Create folder modal wireframe">
+              </div>
+              <div class="cuapts-iteration-text">
+                <p class="cuapts-iteration-heading">Create folder modal (final)</p>
+                <div class="cuapts-iteration-point">
+                  <img src="../assets/whim-icon-tick-sm.svg" alt="" class="cuapts-iteration-icon">
+                  <p>Uses a familiar modal pattern that clearly communicates a new step</p>
+                </div>
+                <div class="cuapts-iteration-point">
+                  <img src="../assets/whim-icon-tick-sm.svg" alt="" class="cuapts-iteration-icon">
+                  <p>Provides focused attention on naming the folder</p>
+                </div>
+                <div class="cuapts-iteration-point">
+                  <img src="../assets/whim-icon-tick-sm.svg" alt="" class="cuapts-iteration-icon">
+                  <p>Creates a predictable flow that feels intentional and easy to follow</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Design Edge Cases -->
+        <section class="cuapts-section" style="margin-top: 75.8px;">
+          <div class="cuapts-edge-head">
+            <h2 class="cuapts-h2">Design Edge Cases</h2>
+            <p class="cuapts-body-text">While working with the PM and TPM, we identified edge cases around viewing a folder as a collaborator versus through a shared link. Addressing these helped clarify access levels and prevent user confusion.</p>
+          </div>
+          <div class="cuapts-edge-row">
+            <div class="cuapts-edge-col">
+              <p class="cuapts-edge-label">Collaborator view</p>
+              <div class="cuapts-edge-image"><img src="../assets/cuapts-edge-collaborator.png" alt="Collaborator view of a shared folder"></div>
+            </div>
+            <div class="cuapts-edge-col">
+              <p class="cuapts-edge-label">Viewer</p>
+              <div class="cuapts-edge-image"><img src="../assets/cuapts-edge-viewer.png" alt="Read-only viewer of a shared folder"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="cuapts-final-band">
+        <div class="cuapts-final-band__inner">
+          <p class="cuapts-eyebrow cuapts-eyebrow--final"><img src="../assets/cuapts-eyebrow-icon.png" alt="">Final Design</p>
+
+          <div class="cuapts-final-group">
+            <p class="cuapts-final-caption">Save to folder from home page and apartment page</p>
+            <div class="cuapts-final-videos">
+              <video class="cuapts-final-video" style="aspect-ratio: 385 / 579;" src="../videos/cuaptshomepage.MP4" autoplay loop muted playsinline></video>
+              <video class="cuapts-final-video" style="aspect-ratio: 384 / 579;" src="../videos/cuaptsapartmentpage.MP4" autoplay loop muted playsinline></video>
+            </div>
+          </div>
+
+          <div class="cuapts-final-group">
+            <p class="cuapts-final-caption">Folders Page to create new folders and view folders created</p>
+            <div class="cuapts-final-videos">
+              <video class="cuapts-final-video" style="aspect-ratio: 394.6 / 560;" src="../videos/cuaptsfolderspage.MP4" autoplay loop muted playsinline></video>
+              <video class="cuapts-final-video" style="aspect-ratio: 394.6 / 560;" src="../videos/cuaptsfolderspage2.MP4" autoplay loop muted playsinline></video>
+            </div>
+          </div>
+
+          <div class="cuapts-final-group">
+            <p class="cuapts-final-caption">Collaborator view vs viewer side</p>
+            <div class="cuapts-final-videos">
+              <video class="cuapts-final-video" style="aspect-ratio: 403.4 / 497;" src="../videos/cuaptscollaboratorview.MP4" autoplay loop muted playsinline></video>
+              <video class="cuapts-final-video" style="aspect-ratio: 403.4 / 497;" src="../videos/cuaptsviewerside.MP4" autoplay loop muted playsinline></video>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cuapts-body">
+        <!-- Reflection -->
+        <section class="cuapts-section cuapts-section--reflection" style="margin-top: 42px;">
+          <div class="cuapts-section-head">
+            <p class="cuapts-eyebrow"><img src="../assets/cuapts-eyebrow-icon.png" alt="">Reflection</p>
+            <h2 class="cuapts-h2">What did I learn?</h2>
+          </div>
+          <div class="cuapts-body-text">
+            <p>This was my first semester on the DTI team, and it significantly strengthened my foundation in design principles and critique. Through regular design reviews, I learned how to clearly articulate design decisions, receive constructive feedback, and iterate more intentionally based on critique rather than personal preference.</p>
+            <p>I also gained valuable experience collaborating cross-functionally with PMs and developers. Working closely with them helped me understand design feasibility, tradeoffs, and how to balance ideal user experiences with technical and timeline constraints, ultimately shaping more realistic and implementable designs.</p>
+          </div>
+          <div class="cuapts-reflection-photos">
+            <div class="cuapts-reflection-photo"><img src="../assets/cuapts-reflection-1.png" alt="CUApts team posing together"></div>
+            <div class="cuapts-reflection-photo"><img src="../assets/cuapts-reflection-2.png" alt="CUApts team at a social event"></div>
+            <div class="cuapts-reflection-photo"><img src="../assets/cuapts-reflection-3.png" alt="CUApts team celebrating"></div>
+          </div>
+          <p class="cuapts-reflection-caption">CUApts Team Socials</p>
+        </section>
+
+        <a class="case-study__back cuapts-back" href="../index.html#work">← All work</a>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <hr class="footer__divider">
+      <div class="footer__content">
+        <div class="footer__top">
+          <p class="footer__heading">Thanks for visiting!</p>
+          <div class="footer__social">
+            <a href="https://www.linkedin.com/in/xintong-lin-930272238/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+              <img class="icon-linkedin" src="../assets/icon-linkedin.png" alt="">
+            </a>
+            <a href="mailto:xl966@cornell.edu" aria-label="Email">
+              <img class="icon-email" src="../assets/icon-email.png" alt="">
+            </a>
+          </div>
+        </div>
+        <div class="footer__bottom">
+          <p>Lets keep in touch :)</p>
+          <p class="footer__copyright">Copyright © 2026 Xintong Lin</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
