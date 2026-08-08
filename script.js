@@ -100,3 +100,32 @@ if (navToggle && navLinks) {
     if (window.innerWidth > 640) closeMenu();
   });
 }
+
+const revealEls = document.querySelectorAll('.reveal');
+
+if (revealEls.length) {
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (prefersReducedMotion) {
+    revealEls.forEach((el) => el.classList.add('is-visible'));
+  } else {
+    const onloadEls = document.querySelectorAll('.reveal.reveal-onload');
+    const scrollEls = document.querySelectorAll('.reveal:not(.reveal-onload)');
+
+    onloadEls.forEach((el) => el.classList.add('is-visible'));
+
+    const revealObserver = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -8% 0px' }
+    );
+
+    scrollEls.forEach((el) => revealObserver.observe(el));
+  }
+}
