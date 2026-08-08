@@ -68,3 +68,35 @@ document.querySelectorAll('.sticker').forEach((sticker) => {
 
   requestAnimationFrame(tick);
 });
+
+const navToggle = document.querySelector('.nav__toggle');
+const navLinks = document.querySelector('.nav__links');
+
+if (navToggle && navLinks) {
+  const closeMenu = () => {
+    navToggle.classList.remove('is-open');
+    navLinks.classList.remove('is-open');
+    navToggle.setAttribute('aria-expanded', 'false');
+  };
+
+  navToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = navToggle.classList.toggle('is-open');
+    navLinks.classList.toggle('is-open', isOpen);
+    navToggle.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  navLinks.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', closeMenu);
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!navToggle.contains(e.target) && !navLinks.contains(e.target)) {
+      closeMenu();
+    }
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 640) closeMenu();
+  });
+}

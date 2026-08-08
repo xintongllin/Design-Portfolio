@@ -71,6 +71,43 @@ a {
   padding: 7px var(--side-padding) 0;
   max-width: var(--max-width);
   margin: 0 auto;
+  position: relative;
+}
+
+.nav__toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.nav__toggle span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--color-primary);
+  transition: transform 0.25s ease, opacity 0.2s ease;
+}
+
+.nav__toggle.is-open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.nav__toggle.is-open span:nth-child(2) {
+  opacity: 0;
+}
+
+.nav__toggle.is-open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
 }
 
 .nav__logo {
@@ -78,6 +115,12 @@ a {
   height: 43px;
   overflow: hidden;
   flex-shrink: 0;
+  display: block;
+  transition: transform 0.25s ease;
+}
+
+.nav__logo:hover {
+  transform: scale(1.1) rotate(-6deg);
 }
 
 .nav__logo img {
@@ -93,8 +136,8 @@ a {
   align-items: center;
   gap: 36px;
   list-style: none;
-  font-size: 13px;
-  font-weight: 400;
+  font-size: 14px;
+  font-weight: 500;
   color: #000;
 }
 
@@ -511,6 +554,12 @@ a {
   box-sizing: border-box;
   flex-shrink: 0;
   overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.about__photo:hover {
+  transform: scale(1.04) rotate(-2deg);
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.25);
 }
 
 .about__photo img {
@@ -573,6 +622,11 @@ a {
   gap: 13px;
   flex: 1;
   min-width: 0;
+  transition: transform 0.25s ease;
+}
+
+.about__community:hover {
+  transform: translateY(-4px);
 }
 
 .about__community-image {
@@ -585,6 +639,11 @@ a {
   height: 100%;
   object-fit: cover;
   display: block;
+  transition: transform 0.3s ease;
+}
+
+.about__community:hover .about__community-image img {
+  transform: scale(1.06);
 }
 
 .about__community-image--dcc { aspect-ratio: 1772 / 1172; }
@@ -624,6 +683,10 @@ a {
   margin-bottom: 47px;
 }
 
+.about__hobbies-intro .about__heading {
+  margin-bottom: 0;
+}
+
 .about__hobbies-intro p {
   font-size: 18px;
   font-weight: 400;
@@ -641,18 +704,36 @@ a {
   flex-direction: column;
   align-items: center;
   gap: 13px;
+  transition: transform 0.25s ease;
+}
+
+.about__hobby:nth-child(odd):hover {
+  transform: scale(1.03) rotate(-2deg);
+}
+
+.about__hobby:nth-child(even):hover {
+  transform: scale(1.03) rotate(2deg);
 }
 
 .about__hobby-image {
   width: 100%;
+  background: #fff;
+  box-shadow: 0 4px 2px rgba(0, 0, 0, 0.25);
   border-radius: 8px;
-  overflow: hidden;
+  padding: 17px;
+  box-sizing: border-box;
+  transition: box-shadow 0.25s ease;
+}
+
+.about__hobby:hover .about__hobby-image {
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.25);
 }
 
 .about__hobby-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 7px;
   display: block;
 }
 
@@ -2337,6 +2418,12 @@ a {
     gap: 24px;
   }
 
+  .about__hobby--food .about__hobby-image,
+  .about__hobby--cooking .about__hobby-image {
+    aspect-ratio: auto;
+    height: 311px;
+  }
+
   .about__heading {
     font-size: 24px;
   }
@@ -2496,9 +2583,46 @@ a {
     font-size: 16px;
   }
 
+  .nav__toggle {
+    display: flex;
+  }
+
   .nav__links {
-    gap: 20px;
-    font-size: 12px;
+    position: fixed;
+    top: 61px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 50;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    background: var(--color-bg-top);
+    box-shadow: 0 16px 24px rgba(2, 22, 37, 0.12);
+    font-size: 14px;
+    font-weight: 500;
+    color: #000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-12px);
+    transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s;
+    pointer-events: none;
+  }
+
+  .nav__links.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .nav__links li {
+    border-bottom: 1px solid rgba(17, 71, 110, 0.12);
+  }
+
+  .nav__links a {
+    display: block;
+    padding: 14px var(--side-padding);
   }
 
   .project-card__meta {
@@ -2511,10 +2635,26 @@ a {
     white-space: normal;
   }
 
-  .footer__top,
+  .footer__heading {
+    font-size: 16px;
+  }
+
+  .footer__social {
+    gap: 8px;
+  }
+
+  .footer__social .icon-linkedin {
+    width: 18px;
+    height: 18px;
+  }
+
+  .footer__social .icon-email {
+    width: 24px;
+    height: 24px;
+  }
+
   .footer__bottom {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
+    font-size: 11px;
+    gap: 8px;
   }
 }
