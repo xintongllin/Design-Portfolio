@@ -129,3 +129,5 @@ if (revealEls.length) {
     scrollEls.forEach((el) => revealObserver.observe(el));
   }
 }
+
+
