@@ -115,20 +115,24 @@ a {
 .page--white {
   background: linear-gradient(
     180deg,
-    var(--color-bg-top) 0,
-    var(--color-bg-top) 61px,
-    #ffffff 61px,
+    #ffffff 0,
     #ffffff calc(100% - 150px),
     var(--color-bg-top) 100%
   );
 }
 
 /* Navigation */
+header {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  background: var(--color-bg-top);
+}
 .nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 7px var(--side-padding) 0;
+  min-height: 43px;
   max-width: var(--max-width);
   margin: 0 auto;
   position: relative;
