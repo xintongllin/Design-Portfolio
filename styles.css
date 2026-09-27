@@ -364,82 +364,76 @@ header {
   transform: scale(1.15);
 }
 
-.hero__doodles {
+.sticker-board {
   position: relative;
-  width: 389px;
-  height: 383px;
+  width: 553px;
+  max-width: 100%;
   flex-shrink: 0;
 }
 
-.sticker-board__card {
-  position: absolute;
-  top: 24px;
-  left: 24px;
-  width: 341px;
-  height: 335px;
-  background: var(--color-card);
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  transform: rotate(-9deg);
-  z-index: 0;
-}
-
-.hero__doodle {
-  position: absolute;
-  z-index: 1;
-}
-
-.hero__doodle--strawberry {
-  top: 91px;
-  left: 60px;
-  width: 100px;
-}
-
-.hero__doodle--heart {
-  top: 46px;
-  left: 170px;
-  width: 127px;
-}
-
-.hero__doodle--clover {
-  top: 205px;
-  left: 77px;
-  width: 103px;
-}
-
-.hero__doodle--flower {
-  bottom: 71px;
-  left: 206px;
-  width: 125px;
+.sticker-board__surface {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 553 / 369;
+  /* The board art has ~3.7% transparent padding above and below it. */
+  margin-block: -3.7%;
+  background: url("assets/board/board.png") center / 100% 100% no-repeat;
+  touch-action: pan-y;
 }
 
 .sticker {
-  cursor: grab;
+  position: absolute;
+  height: auto;
+  cursor: default;
   touch-action: none;
   user-select: none;
+  -webkit-user-select: none;
   -webkit-user-drag: none;
-  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.15s ease;
+  transform-origin: center;
+  transition: filter 0.2s ease;
 }
 
-.sticker:hover {
-  transform: scale(1.18);
-  filter: brightness(1.05);
+.sticker.is-hovered {
+  cursor: grab;
+  filter: drop-shadow(0 4px 6px rgba(17, 71, 110, 0.18));
 }
 
 .sticker.is-dragging {
   cursor: grabbing;
-  z-index: 10;
-  transition: none;
+  filter: drop-shadow(0 10px 14px rgba(17, 71, 110, 0.25));
 }
 
-.hero__doodles-hint {
-  position: absolute;
-  left: 50%;
-  bottom: 14px;
-  transform: translateX(-50%);
+.sticker-board.is-decorating {
+  cursor: grabbing;
+}
+
+.sticker-board__footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 14px;
+  min-height: 24px;
   font-size: 14px;
   color: var(--color-primary);
-  white-space: nowrap;
+}
+
+.sticker-board__reset {
+  font: inherit;
+  font-size: 13px;
+  color: var(--color-accent);
+  background: none;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  padding: 2px 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.sticker-board__reset:hover,
+.sticker-board__reset:focus-visible {
+  background: var(--color-accent);
+  color: #fff;
 }
 
 /* Projects */
@@ -496,6 +490,42 @@ header {
 }
 
 .project-card:hover .project-card__image img {
+  transform: scale(1.03);
+}
+
+.crush-mockup {
+  position: relative;
+  height: 63.86%;
+  max-width: 100%;
+  aspect-ratio: 4096 / 2496;
+  transition: transform 0.4s ease;
+}
+
+.crush-mockup__video {
+  position: absolute;
+  left: 9.27%;
+  top: 3.79%;
+  width: 81.53%;
+  height: 83.37%;
+  object-fit: cover;
+  border-radius: 2px;
+}
+
+.crush-mockup__frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  pointer-events: none;
+}
+
+.project-card:hover .crush-mockup__video,
+.project-card:hover img.crush-mockup__frame {
+  transform: none;
+}
+
+.project-card:hover .crush-mockup {
   transform: scale(1.03);
 }
 
@@ -2512,9 +2542,9 @@ header {
     padding-top: 60px;
   }
 
-  .hero__doodles {
+  .sticker-board {
     width: 100%;
-    max-width: 389px;
+    max-width: 553px;
     margin: 0 auto;
   }
 
