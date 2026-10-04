@@ -562,6 +562,16 @@ if (bagScene) {
     }));
   }
 
+  // Throw the items out on its own once the bag scrolls into the middle of the screen.
+  if ('IntersectionObserver' in window) {
+    const autoToss = new IntersectionObserver((entries) => {
+      if (!entries[0].isIntersecting) return;
+      autoToss.disconnect();
+      if (!isOpen && !busy) setTimeout(() => { if (!isOpen && !busy) tossOut(); }, 250);
+    }, { rootMargin: '-35% 0px -35% 0px' });
+    autoToss.observe(bagScene);
+  }
+
   // Leaving via the browser back button can restore this page mid-zoom.
   window.addEventListener('pageshow', (e) => {
     if (e.persisted && openItem && page.classList.contains('is-navigating')) closePage();
