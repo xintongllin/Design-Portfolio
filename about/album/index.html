@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Xintong's Design Portfolio</title>
+  <link rel="icon" type="image/png" sizes="16x16" href="../../assets/favicon-16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="../../assets/favicon-48.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="../../assets/favicon-64.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body>
+  <div class="page">
+    <header>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="/" class="nav__logo" aria-label="Home">
+          <img src="../../assets/logo.png" alt="Xintong Lin logo">
+        </a>
+        <button class="nav__toggle" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+        <ul class="nav__links">
+          <li><a href="/#work">Work</a></li>
+          <li><a href="/art">Art</a></li>
+          <li><a href="/about" class="nav__link--active" aria-current="page">About</a></li>
+          <li><a href="https://drive.google.com/file/d/18TPc3mJHjs6lvnnvbrQjFrKY6BbmmnCj/view?usp=sharing" target="_blank" rel="noopener noreferrer">Resume</a></li>
+        </ul>
+      </nav>
+      <div class="nav-divider"><hr></div>
+    </header>
+
+    <main class="cafe album">
+      <a class="cafe__back reveal reveal-onload reveal-1" href="../index.html#from-camera">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M7.78 2.58 6.6 1.4 0 8l6.6 6.6 1.18-1.18L2.36 8z" fill="currentColor"/></svg>
+        Back to bag
+      </a>
+      <h1 class="cafe__title reveal reveal-onload reveal-1">Welcome to My Album</h1>
+
+      <section class="cafe__intro kitchen__intro">
+        <img class="cafe__polaroid reveal reveal-onload reveal-2" src="../../assets/album/album-polaroid.png" alt="Polaroid of Xintong photographing a willow tree by the lake">
+        <div class="cafe__intro-text kitchen__intro-text reveal reveal-onload reveal-3">
+          <h2>Through My Lens</h2>
+          <p>I love capturing the little moments with my camera, especially the ones I know I’ll want to look back on. Mostly good days, pretty places, and memories with the people I love.</p>
+        </div>
+      </section>
+
+      <section class="album__moments">
+        <div class="album__head reveal">
+          <h2 class="cafe__heading">Little Moments</h2>
+          <button type="button" class="album__reset" hidden>Reset photos</button>
+        </div>
+        <div class="album-board reveal" role="group" aria-label="Photo board. Drag photos to move them, or click one to see it larger.">
+          <button type="button" class="album-card album-card--portrait" data-id="blossom-picnic" data-full="../../assets/album/blossom-picnic-full.jpg" style="--x:8.11;--y:23.63;--r:-3.07deg" aria-label="Open photo: Two friends sitting on a blanket under cherry blossoms">
+            <img src="../../assets/album/blossom-picnic.jpg" alt="Two friends sitting on a blanket under cherry blossoms" draggable="false" loading="lazy">
+          </button>
+          <button type="button" class="album-card album-card--portrait" data-id="restaurant-group" data-full="../../assets/album/restaurant-group-full.jpg" style="--x:62.22;--y:92.18;--r:3.25deg" aria-label="Open photo: Group of friends posing at a restaurant">
+            <img src="../../assets/album/restaurant-group.jpg" alt="Group of friends posing at a restaurant" draggable="false" loading="lazy">
+          </button>
+          <button type="button" class="album-card album-card--portrait" data-id="sunflower-field" data-full="../../assets/album/sunflower-field-full.jpg" style="--x:28.49;--y:32.80;--r:2.69deg" aria-label="Open photo: Xintong holding sunflowers in a flower field">
+            <img src="../../assets/album/sunflower-field.jpg" alt="Xintong holding sunflowers in a flower field" draggable="false" loading="lazy">
+          </button>
+          <button type="button" class="album-card album-card--portrait" data-id="campus-selfie" data-full="../../assets/album/campus-selfie-full.jpg" style="--x:32.35;--y:86.62;--r:3.66deg" aria-label="Open photo: Two friends taking a selfie on a sunny campus lawn">
+            <img src="../../assets/album/campus-selfie.jpg" alt="Two friends taking a selfie on a sunny campus lawn" draggable="false" loading="lazy">
+          </button>
+          <button type="button" class="album-card album-card--landscape" data-id="lawn-friends" data-full="../../assets/album/lawn-friends-full.jpg" style="--x:53.97;--y:55.26;--r:3.52deg" aria-label="Open photo: Three friends sitting on a lawn">
+            <img src="../../assets/album/lawn-friends.jpg" alt="Three friends sitting on a lawn" draggable="false" loading="lazy">
+          </button>
+          <button type="button" class="album-card album-card--landscape" data-id="party-friends" data-full="../../assets/album/party-friends-full.jpg" style="--x:85.78;--y:69.78;--r:3.07deg" aria-label="Open photo: Three friends dressed up for a party">
+            <img src="../../assets/album/party-friends.jpg" alt="Three friends dressed up for a party" draggable="false" loading="lazy">
+          </button>
+          <button type="button" class="album-card album-card--landscape" data-id="blossom-group" data-full="../../assets/album/blossom-group-full.jpg" style="--x:10.78;--y:69.82;--r:4.15deg" aria-label="Open photo: Four friends posing under cherry blossom trees">
+            <img src="../../assets/album/blossom-group.jpg" alt="Four friends posing under cherry blossom trees" draggable="false" loading="lazy">
+          </button>
+          <button type="button" class="album-card album-card--portrait" data-id="cafe-portrait" data-full="../../assets/album/cafe-portrait-full.jpg" style="--x:95.03;--y:16.79;--r:2.89deg" aria-label="Open photo: Xintong smiling at a cafe table">
+            <img src="../../assets/album/cafe-portrait.jpg" alt="Xintong smiling at a cafe table" draggable="false" loading="lazy">
+          </button>
+          <button type="button" class="album-card album-card--portrait" data-id="mirror-friends" data-full="../../assets/album/mirror-friends-full.jpg" style="--x:75.16;--y:28.16;--r:-2.99deg" aria-label="Open photo: Three friends posing together indoors">
+            <img src="../../assets/album/mirror-friends.jpg" alt="Three friends posing together indoors" draggable="false" loading="lazy">
+          </button>
+          <button type="button" class="album-card album-card--landscape" data-id="blossom-selfie" data-full="../../assets/album/blossom-selfie-full.jpg" style="--x:50.45;--y:18.75;--r:-3.00deg" aria-label="Open photo: Selfie of two friends in front of cherry blossoms">
+            <img src="../../assets/album/blossom-selfie.jpg" alt="Selfie of two friends in front of cherry blossoms" draggable="false" loading="lazy">
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <div class="album-lightbox" hidden>
+      <div class="album-lightbox__content" role="dialog" aria-modal="true" aria-label="Photo">
+        <img class="album-lightbox__img" src="" alt="">
+      </div>
+    </div>
+
+    <footer class="footer">
+      <hr class="footer__divider">
+      <div class="footer__content">
+        <div class="footer__top">
+          <p class="footer__heading">Thanks for visiting!</p>
+          <div class="footer__social">
+            <a href="https://www.linkedin.com/in/xintong-lin-930272238/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+              <img class="icon-linkedin" src="../../assets/icon-linkedin.png" alt="">
+            </a>
+            <a href="mailto:xl966@cornell.edu" aria-label="Email">
+              <img class="icon-email" src="../../assets/icon-email.png" alt="">
+            </a>
+          </div>
+        </div>
+        <div class="footer__bottom">
+          <p>Lets keep in touch :)</p>
+          <p class="footer__copyright">Copyright © 2026 Xintong Lin</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+  <script src="../../script.js"></script>
+</body>
+</html>

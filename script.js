@@ -1,7 +1,7 @@
 const stickerBoard = document.querySelector('.sticker-board');
 
 if (stickerBoard) {
-  const STORAGE_KEY = 'sticker-board-layout-v2';
+  const STORAGE_KEY = 'sticker-board-layout-v3';
   const stickers = Array.from(stickerBoard.querySelectorAll('.sticker'));
   const resetBtn = document.querySelector('.sticker-board__reset');
   let topZ = stickers.length + 1;
@@ -291,3 +291,408 @@ if (revealEls.length) {
 }
 
 
+
+const bagScene = document.querySelector('.bag-scene');
+
+if (bagScene) {
+  const tote = bagScene.querySelector('.bag-tote');
+  const items = Array.from(bagScene.querySelectorAll('.bag-item'));
+  const page = document.querySelector('.bag-page');
+  const circles = page.querySelectorAll('.bag-page__circle');
+  const pageTitle = page.querySelector('.bag-page__title');
+  const pageIcon = page.querySelector('.bag-page__icon');
+  const backBtn = page.querySelector('.bag-page__back');
+  const inertEls = document.querySelectorAll('.page > header, .page > main, .page > footer');
+  const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const CLOSE_MS = 720;
+  let isOpen = false;
+  let busy = false;
+  let openItem = null;
+
+  const centerOf = (el) => {
+    const r = el.getBoundingClientRect();
+    return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+  };
+
+  // Offset from an item's resting spot back to the mouth of the bag.
+  const offsetToBag = (item) => {
+    const bag = tote.getBoundingClientRect();
+    const mouth = { x: bag.left + bag.width / 2, y: bag.top + bag.height * 0.45 };
+    const c = centerOf(item);
+    return { dx: mouth.x - c.x, dy: mouth.y - c.y };
+  };
+
+  const setItemsFocusable = (on) => {
+    items.forEach((item) => {
+      item.querySelector('.bag-item__btn').tabIndex = on ? 0 : -1;
+    });
+  };
+
+  const setOpenState = (open) => {
+    isOpen = open;
+    tote.setAttribute('aria-expanded', String(open));
+    tote.setAttribute('aria-label', open ? 'Pack my bag back up' : 'Open my bag');
+  };
+
+  const tossOut = () => {
+    busy = true;
+    setOpenState(true);
+    bagScene.classList.add('is-open');
+
+    if (reduceMotion()) {
+      bagScene.classList.add('is-settled');
+      setItemsFocusable(true);
+      busy = false;
+      return;
+    }
+
+    // The bag zooms in, then tips forward as it throws everything out.
+    tote.querySelector('img').animate(
+      [
+        { transform: 'none' },
+        { transform: 'scale(1.16)', offset: 0.3 },
+        { transform: 'scale(1.08) rotate(14deg)', offset: 0.55 },
+        { transform: 'scale(0.97) rotate(-4deg)', offset: 0.8 },
+        { transform: 'none' },
+      ],
+      { duration: 900, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)' }
+    );
+
+    const flights = items.map((item, i) => {
+      const { dx, dy } = offsetToBag(item);
+      const lift = 70 + (i % 3) * 25;
+      const spin = (i % 2 ? 1 : -1) * (18 + i * 4);
+      return item.animate(
+        [
+          { transform: `translate(${dx}px, ${dy}px) scale(0.15) rotate(0deg)`, opacity: 0 },
+          { opacity: 1, offset: 0.1 },
+          { transform: `translate(${dx * 0.45}px, ${dy * 0.45 - lift}px) scale(0.85) rotate(${spin}deg)`, offset: 0.5 },
+          { transform: 'translate(0, 0) scale(1) rotate(0deg)', opacity: 1 },
+        ],
+        { duration: 950, delay: 260 + i * 90, easing: 'cubic-bezier(0.3, 0.7, 0.3, 1)', fill: 'backwards' }
+      ).finished;
+    });
+
+    // A timer backs up the animation promises, which can stall in background tabs.
+    const settle = () => {
+      if (!busy || !isOpen) return;
+      bagScene.classList.add('is-settled');
+      setItemsFocusable(true);
+      busy = false;
+    };
+    Promise.all(flights).then(settle);
+    setTimeout(settle, 260 + items.length * 90 + 1000);
+  };
+
+  const packUp = () => {
+    busy = true;
+    setOpenState(false);
+    setItemsFocusable(false);
+    bagScene.classList.remove('is-settled');
+
+    const finish = () => {
+      bagScene.classList.remove('is-open');
+      busy = false;
+    };
+
+    if (reduceMotion()) {
+      finish();
+      return;
+    }
+
+    const flights = items.map((item, i) => {
+      const { dx, dy } = offsetToBag(item);
+      return item.animate(
+        [
+          { transform: 'none', opacity: 1 },
+          { transform: `translate(${dx * 0.5}px, ${dy * 0.5 - 40}px) scale(0.7)`, opacity: 1, offset: 0.5 },
+          { transform: `translate(${dx}px, ${dy}px) scale(0.15)`, opacity: 0 },
+        ],
+        { duration: 520, delay: (items.length - 1 - i) * 60, easing: 'cubic-bezier(0.55, 0, 0.45, 1)', fill: 'forwards' }
+      );
+    });
+
+    let done = false;
+    const settle = () => {
+      if (done) return;
+      done = true;
+      finish();
+      flights.forEach((f) => f.cancel());
+    };
+    Promise.all(flights.map((f) => f.finished)).then(settle);
+    setTimeout(settle, items.length * 60 + 600);
+  };
+
+  tote.addEventListener('click', () => {
+    if (busy) return;
+    if (isOpen) packUp();
+    else tossOut();
+  });
+
+  const setPageInert = (on) => {
+    inertEls.forEach((el) => {
+      if (on) el.setAttribute('inert', '');
+      else el.removeAttribute('inert');
+    });
+    document.documentElement.style.overflow = on ? 'hidden' : '';
+  };
+
+  const sizeCircles = (item) => {
+    const { x, y } = centerOf(item.querySelector('.bag-item__obj'));
+    // Big enough to cover the viewport from the item's center.
+    const radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y)) + 24;
+
+    circles.forEach((c) => {
+      c.style.left = `${x - radius}px`;
+      c.style.top = `${y - radius}px`;
+      c.style.width = c.style.height = `${radius * 2}px`;
+    });
+    page.style.setProperty('--tone', item.dataset.tone);
+  };
+
+  // Items with their own page zoom the circle over the screen, then navigate.
+  const OPEN_MS = 1000;
+  const navigateTo = (item) => {
+    sizeCircles(item);
+    openItem = item;
+    item.classList.add('is-opened');
+    page.classList.add('is-navigating');
+    page.classList.remove('is-closing');
+    page.hidden = false;
+    setPageInert(true);
+    requestAnimationFrame(() => requestAnimationFrame(() => page.classList.add('is-open')));
+    setTimeout(() => { location.href = item.dataset.href; }, reduceMotion() ? 0 : OPEN_MS);
+  };
+
+  const openPage = (item, { pushHistory = true } = {}) => {
+    if (item.dataset.href) {
+      navigateTo(item);
+      return;
+    }
+    const btn = item.querySelector('.bag-item__btn');
+    sizeCircles(item);
+    pageTitle.textContent = item.querySelector('.bag-item__label').textContent;
+    pageIcon.src = item.querySelector('img').src;
+    openItem = item;
+    item.classList.add('is-opened');
+
+    page.hidden = false;
+    page.classList.remove('is-closing');
+    setPageInert(true);
+    requestAnimationFrame(() => requestAnimationFrame(() => page.classList.add('is-open')));
+    backBtn.focus({ preventScroll: true });
+
+    if (pushHistory) history.pushState({ bagItem: item.dataset.slug }, '', `#bag-${item.dataset.slug}`);
+    btn.blur();
+  };
+
+  const closePage = () => {
+    if (!openItem) return;
+    const item = openItem;
+    openItem = null;
+    page.classList.remove('is-open');
+    page.classList.add('is-closing');
+    setPageInert(false);
+
+    setTimeout(() => {
+      page.hidden = true;
+      page.classList.remove('is-closing', 'is-navigating');
+      item.classList.remove('is-opened');
+      item.querySelector('.bag-item__btn').focus({ preventScroll: true });
+    }, reduceMotion() ? 0 : CLOSE_MS);
+  };
+
+  const requestClose = () => {
+    if (history.state && history.state.bagItem) history.back();
+    else {
+      history.replaceState(null, '', location.pathname);
+      closePage();
+    }
+  };
+
+  items.forEach((item) => {
+    item.querySelector('.bag-item__btn').addEventListener('click', () => {
+      if (!busy && isOpen && !openItem) openPage(item);
+    });
+  });
+
+  backBtn.addEventListener('click', requestClose);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && openItem) requestClose();
+  });
+
+  window.addEventListener('popstate', () => {
+    if (openItem) closePage();
+  });
+
+  const showBagOpen = () => {
+    setOpenState(true);
+    bagScene.classList.add('is-open', 'is-settled');
+    setItemsFocusable(true);
+    document.documentElement.style.scrollBehavior = 'auto';
+    bagScene.scrollIntoView({ block: 'center' });
+    document.documentElement.style.scrollBehavior = '';
+  };
+
+  const findItem = (prefix) => location.hash.startsWith(prefix)
+    && items.find((item) => `${prefix}${item.dataset.slug}` === location.hash);
+
+  // Support linking straight to an item, e.g. /about/#bag-camera.
+  const linked = findItem('#bag-');
+  if (linked) {
+    showBagOpen();
+    requestAnimationFrame(() => openPage(linked, { pushHistory: false }));
+  }
+
+  // Coming back from an item's page: start fully zoomed in, then shrink into the item.
+  const returning = findItem('#from-');
+  if (returning) {
+    showBagOpen();
+    history.replaceState(null, '', location.pathname);
+    sizeCircles(returning);
+    openItem = returning;
+    returning.classList.add('is-opened');
+    page.classList.add('is-navigating', 'no-anim', 'is-open');
+    page.hidden = false;
+    setPageInert(true);
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      page.classList.remove('no-anim');
+      closePage();
+    }));
+  }
+
+  // Leaving via the browser back button can restore this page mid-zoom.
+  window.addEventListener('pageshow', (e) => {
+    if (e.persisted && openItem && page.classList.contains('is-navigating')) closePage();
+  });
+}
+
+const albumBoard = document.querySelector('.album-board');
+
+if (albumBoard) {
+  const cards = Array.from(albumBoard.querySelectorAll('.album-card'));
+  const resetBtn = document.querySelector('.album__reset');
+  const lightbox = document.querySelector('.album-lightbox');
+  const lightboxImg = lightbox.querySelector('.album-lightbox__img');
+  const DRAG_THRESHOLD = 5;
+  let topZ = cards.length + 1;
+  let lastOpened = null;
+
+  const home = new Map(cards.map((card, i) => [card, {
+    x: parseFloat(card.style.getPropertyValue('--x')),
+    y: parseFloat(card.style.getPropertyValue('--y')),
+    r: card.style.getPropertyValue('--r'),
+    z: i + 1,
+  }]));
+
+  cards.forEach((card) => { card.style.zIndex = home.get(card).z; });
+
+  cards.forEach((card) => {
+    let start = null;
+    let dragged = false;
+    let lastX = 0;
+    let tilt = 0;
+
+    card.addEventListener('pointerdown', (e) => {
+      if (e.button !== 0) return;
+      start = {
+        px: e.clientX,
+        py: e.clientY,
+        x: parseFloat(card.style.getPropertyValue('--x')),
+        y: parseFloat(card.style.getPropertyValue('--y')),
+      };
+      dragged = false;
+      lastX = e.clientX;
+      tilt = 0;
+      card.setPointerCapture(e.pointerId);
+    });
+
+    card.addEventListener('pointermove', (e) => {
+      if (!start) return;
+      const dx = e.clientX - start.px;
+      const dy = e.clientY - start.py;
+      if (!dragged) {
+        if (Math.hypot(dx, dy) < DRAG_THRESHOLD) return;
+        dragged = true;
+        card.classList.add('is-dragging');
+        card.style.zIndex = ++topZ;
+      }
+      const board = albumBoard.getBoundingClientRect();
+      // Prints can slide past the edge (the board clips them) but their centre stays on the board.
+      const x = Math.min(100, Math.max(0, start.x + (dx / board.width) * 100));
+      const y = Math.min(100, Math.max(0, start.y + (dy / board.height) * 100));
+      card.style.setProperty('--x', x.toFixed(2));
+      card.style.setProperty('--y', y.toFixed(2));
+      // Lean into the direction of travel, easing back as it slows.
+      tilt = tilt * 0.8 + Math.max(-14, Math.min(14, (e.clientX - lastX) * 0.9)) * 0.2;
+      lastX = e.clientX;
+      card.style.setProperty('--r', `calc(${home.get(card).r} + ${tilt.toFixed(2)}deg)`);
+    });
+
+    const endDrag = () => {
+      if (!start) return;
+      start = null;
+      if (dragged) {
+        card.classList.remove('is-dragging');
+        card.style.setProperty('--r', home.get(card).r);
+        if (resetBtn) resetBtn.hidden = false;
+      }
+    };
+
+    card.addEventListener('pointerup', endDrag);
+    card.addEventListener('pointercancel', endDrag);
+
+    // A click that wasn't a drag (or Enter/Space) opens the photo.
+    card.addEventListener('click', (e) => {
+      if (dragged) {
+        e.preventDefault();
+        dragged = false;
+        return;
+      }
+      openLightbox(card);
+    });
+  });
+
+  if (resetBtn) {
+    resetBtn.addEventListener('click', () => {
+      cards.forEach((card) => {
+        const h = home.get(card);
+        card.style.setProperty('--x', h.x);
+        card.style.setProperty('--y', h.y);
+        card.style.setProperty('--r', h.r);
+        card.style.zIndex = h.z;
+      });
+      topZ = cards.length + 1;
+      resetBtn.hidden = true;
+    });
+  }
+
+  const openLightbox = (card) => {
+    lastOpened = card;
+    const img = card.querySelector('img');
+    lightboxImg.src = card.dataset.full;
+    lightboxImg.alt = img.alt;
+    lightbox.hidden = false;
+    document.documentElement.style.overflow = 'hidden';
+    requestAnimationFrame(() => requestAnimationFrame(() => lightbox.classList.add('is-open')));
+    lightbox.focus({ preventScroll: true });
+  };
+
+  const closeLightbox = () => {
+    if (lightbox.hidden) return;
+    lightbox.classList.remove('is-open');
+    document.documentElement.style.overflow = '';
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    setTimeout(() => {
+      lightbox.hidden = true;
+      if (lastOpened) lastOpened.focus({ preventScroll: true });
+    }, reduce ? 0 : 450);
+  };
+
+  lightbox.tabIndex = -1;
+  lightbox.addEventListener('click', closeLightbox);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeLightbox();
+  });
+}

@@ -45,22 +45,6 @@ html {
   transition-delay: 0.12s;
 }
 
-.about__community-row .about__community.reveal:nth-child(2) {
-  transition-delay: 0.12s;
-}
-
-.about__hobbies .about__hobby.reveal:nth-child(2) {
-  transition-delay: 0.1s;
-}
-
-.about__hobbies .about__hobby.reveal:nth-child(3) {
-  transition-delay: 0.2s;
-}
-
-.about__hobbies .about__hobby.reveal:nth-child(4) {
-  transition-delay: 0.3s;
-}
-
 .art__row .art__image.reveal:nth-child(2) {
   transition-delay: 0.1s;
 }
@@ -706,7 +690,7 @@ header {
 
 /* About page */
 .about {
-  padding: 78px var(--side-padding) 146px;
+  padding: 82px var(--side-padding) 135px;
   max-width: var(--max-width);
   margin: 0 auto;
 }
@@ -715,18 +699,17 @@ header {
   display: flex;
   gap: 37px;
   align-items: center;
-  margin-bottom: 67px;
+  margin-bottom: 89px;
 }
 
 .about__photo {
+  position: relative;
   background: #fff;
   box-shadow: 0 4px 2px rgba(0, 0, 0, 0.25);
   width: 305px;
   height: 433px;
   padding: 25px 25px 77px;
-  box-sizing: border-box;
   flex-shrink: 0;
-  overflow: hidden;
   transition: transform 1.1s cubic-bezier(0.19, 1, 0.22, 1), box-shadow 0.3s ease, opacity 1.1s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
@@ -739,8 +722,17 @@ header {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 83%;
+  object-position: center 82.5%;
   display: block;
+}
+
+.about__photo .about__photo-tape {
+  position: absolute;
+  top: -16px;
+  left: 119px;
+  width: 69px;
+  height: auto;
+  z-index: 1;
 }
 
 .about__intro-text {
@@ -762,67 +754,129 @@ header {
   line-height: 1.5;
 }
 
+.about__heading {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.about__heading--icon {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.about__heading--icon img {
+  width: 36px;
+  height: auto;
+  flex-shrink: 0;
+}
+
+/* Experiences */
+.about__experiences {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+  margin-bottom: 64px;
+}
+
+.about__jobs {
+  list-style: none;
+  width: 704px;
+  max-width: 100%;
+  margin-top: 18px;
+  border-top: 1px solid #d3dae0;
+}
+
+.about__job {
+  display: grid;
+  grid-template-columns: 269px 1fr auto;
+  align-items: center;
+  height: 86px;
+  border-bottom: 1px solid #d3dae0;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-primary);
+}
+
+.about__job-company {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+}
+
+.about__job-company img {
+  width: 27px;
+  height: 28px;
+  object-fit: contain;
+}
+
+/* Communities */
 .about__section {
-  margin-bottom: 120px;
+  margin-bottom: 123px;
 }
 
 .about__section:last-of-type {
   margin-bottom: 0;
 }
 
-.about__heading {
-  font-size: 28px;
-  font-weight: 600;
-  color: var(--color-primary);
-  margin-bottom: 55px;
+.about__section > .about__heading {
+  margin-bottom: 45px;
 }
 
 .about__communities {
-  display: flex;
-  flex-direction: column;
-  gap: 55px;
-}
-
-.about__community-row {
-  display: flex;
-  gap: 62px;
-  align-items: flex-start;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 487px));
+  justify-content: space-between;
+  column-gap: 56px;
+  row-gap: 51px;
 }
 
 .about__community {
-  display: flex;
-  flex-direction: column;
-  gap: 13px;
-  flex: 1;
   min-width: 0;
   transition: transform 1.1s cubic-bezier(0.19, 1, 0.22, 1), opacity 1.1s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-.about__community:hover {
-  transform: translateY(-4px);
+.about__communities .about__community.reveal:nth-child(even) {
+  transition-delay: 0.12s;
 }
 
-.about__community-image {
-  border-radius: 8px;
-  overflow: hidden;
+/* Photo and caption tilt together on hover. */
+.about__community-card {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-.about__community-image img {
+.about__community:nth-child(odd):hover .about__community-card {
+  transform: rotate(-1.5deg) scale(1.02);
+}
+
+.about__community:nth-child(even):hover .about__community-card {
+  transform: rotate(1.5deg) scale(1.02);
+}
+
+.about__community-frame {
+  background: #fff;
+  box-shadow: 0 4px 2px rgba(0, 0, 0, 0.25);
+  padding: 25px 25px 60px;
+  transition: box-shadow 0.3s ease;
+}
+
+.about__community:hover .about__community-frame {
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.2);
+}
+
+.about__community-frame img {
   width: 100%;
-  height: 100%;
+  aspect-ratio: 437 / 289;
   object-fit: cover;
+  border-radius: 2px;
   display: block;
-  transition: transform 0.3s ease;
 }
-
-.about__community:hover .about__community-image img {
-  transform: scale(1.06);
-}
-
-.about__community-image--dcc { aspect-ratio: 1772 / 1172; }
-.about__community-image--dcconsulting { aspect-ratio: 1608 / 1076; }
-.about__community-image--cuxd { aspect-ratio: 1024 / 683; }
-.about__community-image--cmsx { aspect-ratio: 457 / 309; }
 
 .about__community-text {
   display: flex;
@@ -842,84 +896,923 @@ header {
   color: #6a7780;
 }
 
-.about__community-desc {
+/* My bag */
+.about__section > .about__bag-heading {
+  margin-bottom: 44px;
+}
+
+/* Item positions use cqw so the whole scene scales with its width. */
+.bag-scene {
+  --bag-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  position: relative;
+  container-type: inline-size;
+  aspect-ratio: 1030 / 380;
+}
+
+.bag-tote {
+  position: absolute;
+  left: 3.66cqw;
+  top: 2.98cqw;
+  width: 14.85cqw;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  z-index: 2;
+  transform-origin: 50% 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.bag-tote img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 6px 10px rgba(17, 71, 110, 0.14));
+  transition: transform 0.45s var(--bag-ease), filter 0.4s ease;
+  transform-origin: 50% 100%;
+}
+
+.bag-scene:not(.is-open) .bag-tote img {
+  animation: bagIdle 3.2s ease-in-out infinite;
+}
+
+.bag-tote:hover img,
+.bag-tote:focus-visible img {
+  transform: translateY(-6px) rotate(-3deg) scale(1.04);
+  filter: drop-shadow(0 14px 16px rgba(17, 71, 110, 0.2));
+  animation-play-state: paused;
+}
+
+.bag-tote:focus-visible {
+  outline: 2px solid var(--color-nav-active);
+  outline-offset: 6px;
+  border-radius: 8px;
+}
+
+.bag-items {
+  list-style: none;
+}
+
+.bag-item {
+  --x: var(--x-d);
+  --y: var(--y-d);
+  --w: var(--w-d);
+  position: absolute;
+  left: calc(var(--x) * 1cqw);
+  top: calc(var(--y) * 1cqw);
+  width: calc(var(--w) * 1cqw);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.bag-scene.is-open .bag-item {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.bag-item__btn {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  text-align: center;
+  font: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.bag-item__obj {
+  display: block;
+  transform: rotate(var(--r));
+  transition: transform 0.45s var(--bag-ease);
+}
+
+.bag-scene.is-settled .bag-item__obj {
+  animation: bagDrift calc(6s + var(--i) * 0.6s) ease-in-out infinite;
+  animation-delay: calc(var(--i) * -1.3s);
+}
+
+.bag-item__obj img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 4px 7px rgba(17, 71, 110, 0.14));
+  transition: filter 0.4s ease;
+}
+
+.bag-item__btn:hover .bag-item__obj,
+.bag-item__btn:focus-visible .bag-item__obj {
+  transform: translateY(-8px) rotate(calc(var(--r) * 0.25)) scale(1.06);
+  animation-play-state: paused;
+}
+
+.bag-item__btn:hover .bag-item__obj img,
+.bag-item__btn:focus-visible .bag-item__obj img {
+  filter: drop-shadow(0 14px 16px rgba(17, 71, 110, 0.2));
+}
+
+.bag-item__btn:focus-visible {
+  outline: none;
+}
+
+.bag-item__label {
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  margin-top: 8px;
+  white-space: nowrap;
   font-size: 14px;
-  font-weight: 400;
+  font-weight: 500;
   color: var(--color-primary);
+  opacity: 0;
+  transform: translate(-50%, -4px);
+  transition: opacity 0.25s ease, transform 0.35s var(--bag-ease);
+  pointer-events: none;
 }
 
-.about__hobbies-intro {
-  display: flex;
-  flex-direction: column;
-  gap: 13px;
-  color: var(--color-primary);
-  margin-bottom: 47px;
+.bag-item__btn:hover .bag-item__label,
+.bag-item__btn:focus-visible .bag-item__label {
+  opacity: 1;
+  transform: translate(-50%, 0);
 }
 
-.about__hobbies-intro .about__heading {
-  margin-bottom: 0;
+.bag-item.is-opened .bag-item__obj {
+  opacity: 0;
+  transform: scale(0.2);
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-.about__hobbies-intro p {
-  font-size: 18px;
-  font-weight: 400;
+@keyframes bagIdle {
+  0%, 82%, 100% { transform: rotate(0); }
+  86% { transform: rotate(-3deg); }
+  90% { transform: rotate(2.5deg); }
+  94% { transform: rotate(-1.5deg); }
 }
 
-.about__hobbies {
-  display: grid;
-  grid-template-columns: 207fr 233fr 234fr 234fr;
-  gap: 41px;
-  align-items: start;
+@keyframes bagDrift {
+  50% { translate: 0 -4px; rotate: 0.6deg; }
 }
 
-.about__hobby {
-  display: flex;
-  flex-direction: column;
+/* Item page that zooms out of the clicked item */
+.bag-page {
+  --tone: #8ec5e8;
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+}
+
+.bag-page[hidden] {
+  display: none;
+}
+
+.bag-page__circle {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  will-change: transform;
+}
+
+.bag-page__circle--tone {
+  background: var(--tone);
+  transition: transform 0.95s cubic-bezier(0.32, 0.08, 0.24, 1);
+}
+
+.bag-page__circle--page {
+  background: var(--color-bg-top);
+  transition: transform 0.95s cubic-bezier(0.32, 0.08, 0.24, 1) 0.12s;
+}
+
+.bag-page.is-open .bag-page__circle {
+  transform: scale(1);
+}
+
+.bag-page.is-closing .bag-page__circle {
+  transform: scale(0);
+}
+
+.bag-page.is-closing .bag-page__circle--page {
+  transition: transform 0.6s cubic-bezier(0.55, 0, 0.45, 1);
+}
+
+.bag-page.is-closing .bag-page__circle--tone {
+  transition: transform 0.6s cubic-bezier(0.55, 0, 0.45, 1) 0.09s;
+}
+
+.bag-page__scroll {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+
+/* When the zoom leads to a real page, only the circles show. */
+.bag-page.is-navigating .bag-page__scroll {
+  display: none;
+}
+
+.bag-page.no-anim .bag-page__circle {
+  transition: none !important;
+}
+
+.bag-page.is-open .bag-page__scroll {
+  opacity: 1;
+  transition-delay: 0.45s;
+}
+
+.bag-page.is-closing .bag-page__scroll {
+  opacity: 0;
+  transition: opacity 0.18s ease-out;
+}
+
+.bag-page__inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 24px var(--side-padding) 100px;
+  transform: translateY(16px);
+  transition: transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.bag-page.is-open .bag-page__inner {
+  transform: none;
+  transition-delay: 0.45s;
+}
+
+.bag-page__back {
+  display: inline-flex;
   align-items: center;
-  gap: 13px;
+  gap: 12px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-primary);
+  cursor: pointer;
+}
+
+.bag-page__back-ring {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(17, 71, 110, 0.32);
+  border-radius: 50%;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.bag-page__back-ring svg {
+  width: 15px;
+  height: 15px;
+  transition: transform 0.25s ease;
+}
+
+.bag-page__back:hover .bag-page__back-ring,
+.bag-page__back:focus-visible .bag-page__back-ring {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+}
+
+.bag-page__back:hover svg {
+  transform: translateX(-2px);
+}
+
+.bag-page__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+  margin-top: 48px;
+}
+
+.bag-page__eyebrow {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.bag-page__title {
+  margin-top: 12px;
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1.05;
+  color: var(--color-primary);
+}
+
+.bag-page__icon {
+  width: 148px;
+  height: auto;
+  rotate: -6deg;
+  filter: drop-shadow(0 14px 22px rgba(0, 0, 0, 0.12));
+}
+
+.bag-page__body {
+  margin-top: 56px;
+  font-size: 18px;
+  color: var(--color-primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bag-tote img,
+  .bag-scene.is-settled .bag-item__obj {
+    animation: none !important;
+  }
+
+  .bag-page__circle,
+  .bag-page__scroll,
+  .bag-page__inner {
+    transition-duration: 0.01s !important;
+    transition-delay: 0s !important;
+  }
+}
+
+/* Drinks page (from the About bag) */
+.cafe {
+  padding: 54px var(--side-padding) 120px;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  color: var(--color-primary);
+}
+
+.cafe__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.cafe__back svg {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.25s ease;
+}
+
+.cafe__back:hover svg,
+.cafe__back:focus-visible svg {
+  transform: translateX(-3px);
+}
+
+.cafe__title {
+  margin-top: 39px;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.cafe__intro {
+  display: grid;
+  grid-template-columns: 335px minmax(0, 666px);
+  justify-content: space-between;
+  align-items: start;
+  margin-top: 10px;
+}
+
+.cafe__polaroid {
+  width: 346px;
+  max-width: calc(100% + 12px);
+  height: auto;
+  margin: 27px 0 0 -12px;
+  transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1), opacity 1.1s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.cafe__polaroid.is-visible:hover {
+  transform: rotate(2deg) scale(1.02);
+}
+
+.cafe__intro-text {
+  margin-top: 45px;
+}
+
+.cafe__intro-text h2 {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.cafe__intro-text p {
+  margin-top: 16px;
+  font-size: 18px;
+  line-height: 1.36;
+}
+
+.cafe__menus {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  margin-top: 48px;
+}
+
+.cafe__menus img {
+  width: 279px;
+  min-width: 0;
+  height: auto;
+  box-shadow: 0 4px 12px rgba(17, 71, 110, 0.18);
+  transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1), box-shadow 0.3s ease;
+}
+
+.cafe__menus img:hover {
+  transform: translateY(-4px) scale(1.04);
+  box-shadow: 0 12px 24px rgba(17, 71, 110, 0.2);
+}
+
+.cafe__made {
+  margin-top: 67px;
+}
+
+.cafe__made-title {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* The track holds two identical sets; sliding by one set's width loops seamlessly. */
+.cafe-marquee {
+  --gap: 20px;
+  margin-top: 16px;
+  overflow: hidden;
+}
+
+.cafe-marquee__track {
+  display: flex;
+  width: max-content;
+  animation: cafeMarquee 42s linear infinite;
+}
+
+.cafe-marquee__set {
+  display: flex;
+  gap: var(--gap);
+  padding-right: var(--gap);
+  list-style: none;
+}
+
+.cafe-marquee__set img {
+  display: block;
+  width: 281px;
+  height: 169px;
+  object-fit: cover;
+}
+
+@keyframes cafeMarquee {
+  to { transform: translateX(-50%); }
+}
+
+.cafe__repeat {
+  margin-top: 66px;
+}
+
+.cafe__heading {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.cafe__drinks {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 291px));
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 30px;
+}
+
+.cafe-drink {
+  display: flex;
+  flex-direction: column;
+  min-height: 312px;
+  padding: 22px 19px 10px;
+  background: var(--color-card);
+  border-radius: 10px;
+  transition: transform 1.1s cubic-bezier(0.19, 1, 0.22, 1), opacity 1.1s cubic-bezier(0.19, 1, 0.22, 1), box-shadow 0.3s ease;
+}
+
+.cafe__drinks .cafe-drink.reveal:nth-child(2) { transition-delay: 0.1s; }
+.cafe__drinks .cafe-drink.reveal:nth-child(3) { transition-delay: 0.2s; }
+
+.cafe-drink:hover {
+  box-shadow: 0 10px 24px rgba(17, 71, 110, 0.1);
+}
+
+.cafe-drink__label {
+  padding-bottom: 11px;
+  border-bottom: 0.6px solid #b7cae9;
+  font-size: 10px;
+  font-weight: 500;
+  color: #799fc9;
+}
+
+.cafe-drink__name {
+  margin-top: 15px;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.cafe-drink__ingredients {
+  margin-top: 6px;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cafe-drink__ingredients li {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 10px;
+  line-height: 14.5px;
+}
+
+.cafe-drink__ingredients li::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #a7c5e8;
+  flex-shrink: 0;
+}
+
+.cafe-drink__img {
+  display: block;
+  width: auto;
+  height: 146px;
+  margin: auto auto 0;
+  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transform-origin: 50% 100%;
+}
+
+.cafe-drink:hover .cafe-drink__img {
+  transform: translateY(-6px) rotate(-3deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cafe-marquee {
+    overflow-x: auto;
+  }
+
+  .cafe-marquee__track {
+    animation: none;
+  }
+
+  .cafe-marquee__set[aria-hidden="true"] {
+    display: none;
+  }
+}
+
+/* Kitchen page (from the About bag). Reuses the cafe page header and intro. */
+.kitchen__intro {
+  align-items: center;
+}
+
+.kitchen__intro .kitchen__intro-text {
+  margin-top: 0;
+}
+
+/* Photos sit on a 925px-wide grid like the Figma layout; stickers hang off each photo. */
+.kitchen__gallery {
+  display: grid;
+  grid-template-columns: 200px 200px 228px 188px;
+  justify-content: center;
+  align-items: start;
+  column-gap: 36px;
+  row-gap: 59px;
+  margin-top: 110px;
+  /* The Figma grid sits 14px right of centre. */
+  padding-left: 28px;
+}
+
+.kitchen-photo {
+  position: relative;
+  margin: 0;
+  container-type: inline-size;
   transition: transform 1.1s cubic-bezier(0.19, 1, 0.22, 1), opacity 1.1s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-.about__hobby:nth-child(odd):hover {
-  transform: scale(1.03) rotate(-2deg);
+.kitchen__gallery .kitchen-photo.reveal:nth-child(4n + 2) { transition-delay: 0.08s; }
+.kitchen__gallery .kitchen-photo.reveal:nth-child(4n + 3) { transition-delay: 0.16s; }
+.kitchen__gallery .kitchen-photo.reveal:nth-child(4n + 4) { transition-delay: 0.24s; }
+
+.kitchen-photo.is-visible {
+  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 1.1s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-.about__hobby:nth-child(even):hover {
-  transform: scale(1.03) rotate(2deg);
+.kitchen-photo:nth-child(odd).is-visible:hover {
+  transform: translateY(-6px) rotate(-1.5deg);
 }
 
-.about__hobby-image {
+.kitchen-photo:nth-child(even).is-visible:hover {
+  transform: translateY(-6px) rotate(1.5deg);
+}
+
+.kitchen-photo__img {
+  display: block;
   width: 100%;
-  background: #fff;
-  box-shadow: 0 4px 2px rgba(0, 0, 0, 0.25);
+  height: auto;
+  border-radius: 6px;
+  transition: box-shadow 0.3s ease;
+}
+
+.kitchen-photo--4 .kitchen-photo__img {
+  width: 183px;
+}
+
+.kitchen-photo:hover .kitchen-photo__img {
+  box-shadow: 0 12px 24px rgba(17, 71, 110, 0.18);
+}
+
+.kitchen-photo__deco {
+  position: absolute;
+  height: auto;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.kitchen-photo__label {
+  position: absolute;
+  left: 50%;
+  bottom: -24px;
+  z-index: 2;
+  width: 165px;
+  max-width: calc(100% - 16px);
+  padding: 11px 8px 12px;
+  border-radius: 10px;
+  background: #f4fbfe;
+  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.1);
+  font-size: 18px;
+  font-weight: 500;
+  text-align: center;
+  white-space: nowrap;
+  color: var(--color-primary);
+  opacity: 0;
+  transform: translate(-50%, 8px);
+  transition: opacity 0.25s ease, transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  pointer-events: none;
+}
+
+.kitchen-photo:hover .kitchen-photo__label {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* Touch screens have no hover, so keep the names visible there. */
+@media (hover: none) {
+  .kitchen-photo__label {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* Playlist page (from the About bag). Reuses the cafe/kitchen header and intro. */
+.music__repeat {
+  margin-top: 77px;
+}
+
+.music-artists {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 562px 1fr;
+  row-gap: 57px;
+  margin-top: 37px;
+}
+
+.music-artist {
+  display: grid;
+  grid-template-columns: 45px 1fr;
+  grid-template-areas:
+    "num name"
+    ". genre";
+  align-items: center;
+  color: var(--color-primary);
+}
+
+.music-artist:nth-child(2) { grid-row: 2; grid-column: 1; }
+.music-artist:nth-child(3) { grid-row: 1; grid-column: 2; transition-delay: 0.1s; }
+.music-artist:nth-child(4) { grid-row: 2; grid-column: 2; transition-delay: 0.1s; }
+
+.music-artist__num {
+  grid-area: num;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.music-artist__name {
+  grid-area: name;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.music-artist__genre {
+  grid-area: genre;
+  font-size: 14px;
+  font-weight: 600;
+  color: #069;
+}
+
+/* Looping photo strip (same mechanism as the cafe drinks strip). */
+.music-marquee {
+  --gap: 28px;
+  margin: 107px -12px 0;
+}
+
+.music-marquee .cafe-marquee__track {
+  animation-duration: 36s;
+}
+
+.music-card {
+  --h: 339px;
+  position: relative;
+  flex-shrink: 0;
+  height: var(--h);
+  width: calc(var(--w) / 339 * var(--h));
+  overflow: hidden;
   border-radius: 8px;
-  padding: 17px;
-  box-sizing: border-box;
-  transition: box-shadow 0.25s ease;
 }
 
-.about__hobby:hover .about__hobby-image {
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.25);
-}
-
-.about__hobby-image img {
+.music-card img {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 7px;
-  display: block;
 }
 
-.about__hobby--food .about__hobby-image { aspect-ratio: 724 / 1086; }
-.about__hobby--cooking .about__hobby-image { aspect-ratio: 768 / 1024; }
-.about__hobby--cafe .about__hobby-image { height: 311px; }
-.about__hobby--painting .about__hobby-image { height: 311px; }
+.music-card__caption {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 26px 10px 10px;
+  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.65));
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: #fff;
+}
 
-.about__hobby p {
-  font-size: 18px;
-  font-weight: 400;
-  color: var(--color-primary);
-  text-align: center;
+/* Album page (from the About bag): a board of draggable photo prints. */
+.album__moments {
+  margin-top: 77px;
+}
+
+.album__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.album__reset {
+  font: inherit;
+  font-size: 13px;
+  color: var(--color-accent);
+  background: none;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  padding: 2px 10px;
+  cursor: pointer;
+}
+
+.album__reset:hover,
+.album__reset:focus-visible {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+/* Card sizes use cqw (1cqw = 10.3px on the 1030px board) so the board scales as a whole. */
+/* A contained board like ericazoelee.com/play: photos stay inside, on a dotted surface with faded edges. */
+.album-board {
+  --board-bg: #fbfeff;
+  position: relative;
+  container-type: inline-size;
+  aspect-ratio: 1030 / 620;
+  margin-top: 38px;
+  overflow: hidden;
+  background-color: var(--board-bg);
+  background-image: radial-gradient(circle, rgba(17, 71, 110, 0.09) 1px, transparent 1.5px);
+  background-size: 2.72cqw 2.72cqw;
+  background-position: center;
+  border: 2px solid #e8f1f8;
+  border-radius: 10px;
+  touch-action: pan-y;
+}
+
+.album-board::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1000;
+  pointer-events: none;
+  background:
+    linear-gradient(to right, rgba(251, 254, 255, 0.9), transparent 6%, transparent 94%, rgba(251, 254, 255, 0.9)),
+    linear-gradient(to bottom, rgba(251, 254, 255, 0.9), transparent 7%, transparent 93%, rgba(251, 254, 255, 0.9));
+}
+
+.album-card {
+  --s: 1;
+  position: absolute;
+  left: calc(var(--x) * 1%);
+  top: calc(var(--y) * 1%);
+  display: block;
+  padding: 1.238cqw 1.238cqw 3.813cqw;
+  border: 0;
+  border-radius: 0.396cqw;
+  background: #fff;
+  box-shadow: 0 2px 1px rgba(0, 0, 0, 0.25);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transform: translate(-50%, -50%) rotate(var(--r)) scale(var(--s));
+  transition: transform 0.4s cubic-bezier(0.34, 1.4, 0.64, 1), box-shadow 0.4s ease;
+}
+
+.album-card--portrait { width: 15.055cqw; }
+.album-card--landscape { width: 24.369cqw; }
+
+.album-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 0.396cqw;
+  pointer-events: none;
+}
+
+.album-card:hover,
+.album-card:focus-visible {
+  --s: 1.07;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.13), 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.album-card:focus-visible {
+  outline: 2px solid var(--color-nav-active);
+  outline-offset: 3px;
+}
+
+.album-card.is-dragging {
+  --s: 1.07;
+  cursor: grabbing;
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.18), 0 3px 10px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.3s ease;
+}
+
+/* Click a print to see the whole photo. */
+.album-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  background: rgba(20, 20, 20, 0);
+  backdrop-filter: blur(0);
+  -webkit-backdrop-filter: blur(0);
+  cursor: zoom-out;
+  transition: background 0.6s cubic-bezier(0.22, 0.61, 0.36, 1), backdrop-filter 0.6s cubic-bezier(0.22, 0.61, 0.36, 1), -webkit-backdrop-filter 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.album-lightbox[hidden] {
+  display: none;
+}
+
+.album-lightbox.is-open {
+  background: rgba(20, 20, 20, 0.55);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.album-lightbox__content {
+  padding: 14px 14px 44px;
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transform: scale(0.6) rotate(-6deg);
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+}
+
+.album-lightbox.is-open .album-lightbox__content {
+  opacity: 1;
+  transform: none;
+}
+
+.album-lightbox__img {
+  display: block;
+  max-width: min(78vw, 900px);
+  max-height: calc(100vh - 160px);
+  width: auto;
+  height: auto;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .album-card,
+  .album-lightbox,
+  .album-lightbox__content {
+    transition: none !important;
+  }
 }
 
 /* Placeholder & case study pages */
@@ -2533,6 +3426,45 @@ header {
 
 /* Responsive */
 @media (max-width: 1024px) {
+  .music-artists {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .music-marquee {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .kitchen {
+    overflow-x: clip;
+  }
+
+  .kitchen__gallery {
+    grid-template-columns: repeat(2, minmax(0, 228px));
+    column-gap: 40px;
+    padding-left: 0;
+  }
+
+  .kitchen-photo__img,
+  .kitchen-photo--4 .kitchen-photo__img {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+  }
+
+  .cafe__intro {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+  }
+
+  .cafe__polaroid {
+    margin-left: 0;
+  }
+
+  .cafe__drinks {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   :root {
     --side-padding: 40px;
   }
@@ -2581,20 +3513,18 @@ header {
     width: 100%;
   }
 
-  .about__community-row {
+  .about__experiences {
     flex-direction: column;
-    gap: 40px;
+    gap: 8px;
   }
 
-  .about__hobbies {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
+  .about__jobs {
+    width: 100%;
   }
 
-  .about__hobby--food .about__hobby-image,
-  .about__hobby--cooking .about__hobby-image {
-    aspect-ratio: auto;
-    height: 311px;
+  .about__communities {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 40px;
   }
 
   .about__heading {
@@ -2743,6 +3673,117 @@ header {
 }
 
 @media (max-width: 640px) {
+  .album-lightbox {
+    padding: 16px;
+  }
+
+  .album-lightbox__content {
+    padding: 10px 10px 30px;
+  }
+
+  .album-lightbox__img {
+    max-width: calc(100vw - 52px);
+  }
+
+  .music-artists {
+    grid-template-columns: 1fr;
+    row-gap: 28px;
+  }
+
+  .music-artist:nth-child(n) { grid-row: auto; grid-column: auto; }
+
+  .music-marquee {
+    --gap: 14px;
+  }
+
+  .music-card {
+    --h: 260px;
+  }
+
+  .music-card__caption {
+    font-size: 12px;
+  }
+
+  .kitchen__gallery {
+    column-gap: 20px;
+    row-gap: 40px;
+  }
+
+  .kitchen-photo__label {
+    font-size: 13px;
+    padding: 8px 6px;
+  }
+
+  .cafe__menus {
+    gap: 16px;
+  }
+
+  .cafe__menus img {
+    flex: 1;
+    width: auto;
+  }
+
+  .cafe__intro-text p {
+    font-size: 16px;
+  }
+
+  .cafe-marquee__set img {
+    width: 220px;
+    height: 132px;
+  }
+
+  .cafe__drinks {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .about__job {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "company date"
+      "role role";
+    row-gap: 6px;
+    height: auto;
+    padding: 18px 0;
+  }
+
+  .about__job-company { grid-area: company; }
+  .about__job-role { grid-area: role; padding-left: 37px; }
+  .about__job-date { grid-area: date; }
+
+  .bag-scene {
+    aspect-ratio: 100 / 80;
+  }
+
+  .bag-tote {
+    left: 3cqw;
+    top: 19cqw;
+    width: 34cqw;
+  }
+
+  .bag-item {
+    --x: var(--x-m);
+    --y: var(--y-m);
+    --w: var(--w-m);
+  }
+
+  .bag-item__label {
+    font-size: 12px;
+  }
+
+  .bag-page__head {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 24px;
+  }
+
+  .bag-page__title {
+    font-size: 36px;
+  }
+
+  .bag-page__icon {
+    width: 100px;
+  }
+
   :root {
     --side-padding: 24px;
   }
