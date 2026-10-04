@@ -897,8 +897,14 @@ header {
 }
 
 /* My bag */
-.about__section > .about__bag-heading {
-  margin-bottom: 44px;
+.about__bag-head {
+  margin-bottom: 13px;
+}
+
+.about__bag-caption {
+  margin-top: 9px;
+  font-size: 16px;
+  color: var(--color-primary);
 }
 
 /* Item positions use cqw so the whole scene scales with its width. */
