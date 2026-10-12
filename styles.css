@@ -60,7 +60,7 @@ html {
     transition: none;
   }
 
-  .hero__title-graphic,
+  .hero__title-text,
   .hero__title-underline {
     clip-path: none;
     animation: none;
@@ -219,31 +219,41 @@ header {
   padding: 78px var(--side-padding) 80px;
   max-width: var(--max-width);
   margin: 0 auto;
-  align-items: center;
+  align-items: start;
 }
 
+/* Offsets line the text up with the Figma frame (text column starts 18px in). */
 .hero__content {
+  margin: 85px 0 0 18px;
   max-width: 650px;
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
 
+/* Decorations are sized in em so they scale with the headline (60px in Figma). */
 .hero__title-wrap {
   position: relative;
   display: inline-block;
-  max-width: 430px;
-  width: 100%;
+  align-self: flex-start;
+  margin: 8px 0 3px;
+  font-size: 60px;
 }
 
 .hero__title {
   display: block;
+  margin: 0;
+  font-size: 1em;
 }
 
-.hero__title-graphic {
+.hero__title-text {
   display: block;
-  width: 100%;
-  height: auto;
+  font-family: "Manjari", var(--font-body, "Manrope"), sans-serif;
+  font-size: 1em;
+  font-weight: 700;
+  line-height: 1.1667;
+  white-space: nowrap;
+  color: #084c82;
   clip-path: inset(0 100% 0 0);
   animation: hero-title-write 1.1s cubic-bezier(0.65, 0, 0.35, 1) 0.25s forwards;
 }
@@ -259,9 +269,9 @@ header {
 
 .hero__title-spark {
   position: absolute;
-  top: -6px;
-  left: -34px;
-  width: 34px;
+  top: -0.233em;
+  left: -0.533em;
+  width: 0.367em;
   height: auto;
   pointer-events: auto;
   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -273,9 +283,9 @@ header {
 
 .hero__title-heart {
   position: absolute;
-  top: -30px;
-  right: 20px;
-  width: 30px;
+  top: -0.667em;
+  left: 5.85em;
+  width: 0.433em;
   height: auto;
   pointer-events: auto;
   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -287,9 +297,9 @@ header {
 
 .hero__title-underline {
   position: absolute;
-  left: 51%;
-  bottom: 10px;
-  width: 30%;
+  left: 3.393em;
+  top: 0.923em;
+  width: 2.315em;
   height: auto;
   pointer-events: none;
   clip-path: inset(0 100% 0 0);
@@ -298,13 +308,13 @@ header {
 
 .hero__intro {
   font-size: 18px;
-  font-weight: 500;
-  line-height: 1.5;
+  font-weight: 600;
+  line-height: normal;
   color: var(--color-dark);
 }
 
 .hero__intro .accent {
-  color: var(--color-accent);
+  color: #306cbe;
 }
 
 .sr-only {
@@ -325,7 +335,7 @@ header {
   align-items: center;
   gap: 15px;
   font-size: 18px;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--color-dark);
 }
 
@@ -350,7 +360,10 @@ header {
 
 .sticker-board {
   position: relative;
-  width: 553px;
+  /* The board sits 25px lower and pokes 11px past the content edge in Figma. */
+  margin-top: 25px;
+  left: 11px;
+  width: 526px;
   max-width: 100%;
   flex-shrink: 0;
 }
@@ -3482,8 +3495,13 @@ header {
 
   .sticker-board {
     width: 100%;
-    max-width: 553px;
+    max-width: 526px;
     margin: 0 auto;
+    left: 0;
+  }
+
+  .hero__content {
+    margin: 0;
   }
 
   .projects__row {
@@ -3795,7 +3813,8 @@ header {
   }
 
   .hero__title-wrap {
-    max-width: 320px;
+    font-size: 44px;
+    margin-left: 16px;
   }
 
   .hero__intro,

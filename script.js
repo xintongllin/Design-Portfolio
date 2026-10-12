@@ -1,7 +1,7 @@
 const stickerBoard = document.querySelector('.sticker-board');
 
 if (stickerBoard) {
-  const STORAGE_KEY = 'sticker-board-layout-v3';
+  const STORAGE_KEY = 'sticker-board-layout-v4';
   const stickers = Array.from(stickerBoard.querySelectorAll('.sticker'));
   const resetBtn = document.querySelector('.sticker-board__reset');
   let topZ = stickers.length + 1;
