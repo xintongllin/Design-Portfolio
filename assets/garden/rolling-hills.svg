@@ -1,0 +1,12 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="1374.62" height="451.255" viewBox="0 0 1374.62 451.255" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Rolling-hills" filter="url(#filter0_f_1088_22419)">
+<path d="M71.8083 162.893C337.744 97.9179 483.257 120.747 695.671 89.1375C903.068 57.528 1103.77 73.3327 1302.81 103.186V379.447H695.671H71.8083V162.893Z" fill="#DDE78D" fill-opacity="0.5"/>
+</g>
+<defs>
+<filter id="filter0_f_1088_22419" x="0" y="-2.92639e-07" width="1374.62" height="451.255" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="35.9042" result="effect1_foregroundBlur_1088_22419"/>
+</filter>
+</defs>
+</svg>

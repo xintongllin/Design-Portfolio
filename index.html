@@ -10,15 +10,55 @@
   <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon-64.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manjari:wght@700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Mali:wght@600&family=Manjari:wght@700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <script>
+    // Play the garden intro once per visit; decided before paint so the home page never flashes first.
+    try {
+      // Only when arriving on the site here; coming from another page of the site skips it.
+      var fromSite = false;
+      try { fromSite = !!document.referrer && new URL(document.referrer).origin === location.origin; } catch (err) { /* ignore */ }
+      if (!fromSite && !sessionStorage.getItem('garden-intro-seen')) {
+        document.documentElement.classList.add('intro-on');
+        // The zoom lands on the top of the page, so don't restore an old scroll position.
+        if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+      }
+    } catch (e) { /* storage blocked: skip the intro */ }
+  </script>
 </head>
 <body>
+  <div class="intro">
+    <div class="intro__loader" aria-hidden="true">
+      <div class="intro__flowers">
+        <img src="assets/intro/loader-flower-1.svg" alt="">
+        <img src="assets/intro/loader-flower-2.svg" alt="">
+        <img src="assets/intro/loader-flower-3.svg" alt="">
+      </div>
+      <p class="intro__text">Loading<span>.</span><span>.</span><span>.</span></p>
+    </div>
+    <div class="intro__scene" aria-hidden="true">
+      <div class="intro__window">
+        <div class="intro__open">
+          <img class="intro__open-shutter intro__open-shutter--left" src="assets/intro/window-open-left.svg" alt="">
+          <img class="intro__open-shutter intro__open-shutter--right" src="assets/intro/window-open-right.svg" alt="">
+          <img class="intro__open-frame" src="assets/intro/window-open-frame.svg" alt="">
+          <img class="intro__open-frame intro__open-garden" src="assets/intro/window-open-garden.svg" alt="">
+          <img class="intro__open-shutter intro__open-shutter--left intro__open-glass" src="assets/intro/window-open-glass-left.svg" alt="">
+          <img class="intro__open-shutter intro__open-shutter--right intro__open-glass" src="assets/intro/window-open-glass-right.svg" alt="">
+        </div>
+        <div class="intro__closed">
+          <img class="intro__closed-frame" src="assets/intro/window-closed-frame.svg" alt="">
+          <img class="intro__sash intro__sash--right" src="assets/intro/window-sash-right.svg" alt="">
+          <img class="intro__sash intro__sash--left" src="assets/intro/window-sash-left.svg" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="page">
     <header>
       <nav class="nav" aria-label="Main navigation">
         <a href="/" class="nav__logo" aria-label="Home">
-          <img src="assets/logo.png" alt="Xintong Lin logo">
+          <img class="nav__logo-icon" src="assets/logo-flower.svg" alt="Xintong Lin logo">
         </a>
         <button class="nav__toggle" aria-label="Toggle menu" aria-expanded="false">
           <span></span><span></span><span></span>
@@ -34,20 +74,80 @@
     </header>
 
     <main>
-      <section class="hero" aria-labelledby="hero-title">
-        <div class="hero__content">
-          <div class="hero__title-wrap reveal reveal-onload reveal-1">
-            <img class="hero__title-spark" src="assets/hero-title-spark.png" alt="" aria-hidden="true">
-            <img class="hero__title-heart" src="assets/hero-title-heart.png" alt="" aria-hidden="true">
-            <h1 id="hero-title" class="hero__title">
-              <span class="hero__title-text">Hi, I’m Xintong!</span>
-            </h1>
-            <img class="hero__title-underline" src="assets/hero-title-underline.svg" alt="" aria-hidden="true">
+      <section class="hero garden-hero" aria-labelledby="hero-title">
+        <div class="garden-art" aria-hidden="true">
+          <div class="garden-art__glow"></div>
+          <div class="garden-art__sky">
+            <div class="garden-art__cloud" data-x="47" style="top:141.3px;width:224.0px;height:129.8px;--w:224.0px;--dur:200s">
+              <div class="garden-art__cloud-set">
+              <img src="assets/garden/wide-cloud.svg" alt="" style="left:0.0px;top:0.0px;width:171.0px;height:92.6px">
+              <img src="assets/garden/little-cloud.svg" alt="" style="left:142.0px;top:82.4px;width:82.0px;height:47.4px">
+              </div>
+              <div class="garden-art__cloud-set garden-art__cloud-set--twin" aria-hidden="true">
+              <img src="assets/garden/wide-cloud.svg" alt="" style="left:0.0px;top:0.0px;width:171.0px;height:92.6px">
+              <img src="assets/garden/little-cloud.svg" alt="" style="left:142.0px;top:82.4px;width:82.0px;height:47.4px">
+              </div>
+            </div>
+            <div class="garden-art__cloud" data-x="979" style="top:206.7px;width:272.1px;height:134.7px;--w:272.1px;--dur:200s">
+              <div class="garden-art__cloud-set">
+              <img src="assets/garden/wide-cloud.svg" alt="" style="left:101.0px;top:0.0px;width:171.1px;height:92.6px">
+              <img src="assets/garden/little-cloud1.svg" alt="" style="left:0.0px;top:67.2px;width:116.6px;height:67.5px">
+              </div>
+              <div class="garden-art__cloud-set garden-art__cloud-set--twin" aria-hidden="true">
+              <img src="assets/garden/wide-cloud.svg" alt="" style="left:101.0px;top:0.0px;width:171.1px;height:92.6px">
+              <img src="assets/garden/little-cloud1.svg" alt="" style="left:0.0px;top:67.2px;width:116.6px;height:67.5px">
+              </div>
+            </div>
           </div>
-          <p class="hero__intro reveal reveal-onload reveal-2">
-            <span class="accent">Product designer</span> @ Cornell crafting<br>experiences through a human-centered lens
-          </p>
-          <div class="hero__status reveal reveal-onload reveal-3">
+          <div class="garden-art__stage">
+          <div class="garden-art__layer garden-art__ground" style="left:0.00px;top:426.41px;width:1230.96px;height:307.64px">
+            <div style="position:absolute;top:-23.34%;right:-5.83%;bottom:-23.34%;left:-5.83%">
+          <img src="assets/garden/rolling-hills.svg" alt="" style="display:block;max-width:none;width:100%;height:100%">
+        </div>
+          </div>
+          <div class="garden-art__layer garden-art__ground" style="left:-29.04px;top:415.42px;width:1229.04px;height:311.04px">
+            <div style="position:absolute;top:-16.4%;right:-4.15%;bottom:-16.4%;left:-4.15%">
+          <img src="assets/garden/flower-meadow.svg" alt="" style="display:block;max-width:none;width:100%;height:100%">
+        </div>
+          </div>
+          <div class="garden-art__layer garden-art__ground" style="left:-1.56px;top:465.39px;width:1232.52px;height:261.34px">
+            <div style="position:absolute;top:-27.48%;right:-5.83%;bottom:-27.48%;left:-5.83%">
+          <img src="assets/garden/foreground.svg" alt="" style="display:block;max-width:none;width:100%;height:100%">
+        </div>
+          </div>
+          <div class="garden-art__layer garden-art__bloom" style="left:417.36px;top:490.50px;width:580.44px;height:79.26px">
+            <img src="assets/garden/garden-flower-row.svg" alt="" style="position:absolute;display:block;top:0;right:0;bottom:0;left:0;max-width:none;width:100%;height:100%">
+          </div>
+          <div class="garden-art__layer garden-art__bloom" style="left:696.00px;top:527.12px;width:40.80px;height:60.17px">
+            <div style="position:absolute;top:0;right:0;bottom:-2.94%;left:0">
+          <img src="assets/garden/garden-flower-a.svg" alt="" style="display:block;max-width:none;width:100%;height:100%">
+        </div>
+          </div>
+          <div class="garden-art__layer garden-art__bloom" style="left:1028.52px;top:504.10px;width:33.12px;height:48.92px">
+            <div style="position:absolute;top:0;right:0;bottom:-2.94%;left:0">
+          <img src="assets/garden/garden-flower-b.svg" alt="" style="display:block;max-width:none;width:100%;height:100%">
+        </div>
+          </div>
+          <div class="garden-art__layer garden-art__bloom" style="left:1099.44px;top:495.47px;width:57.60px;height:85.28px">
+            <div style="position:absolute;top:0;right:0;bottom:-2.94%;left:0">
+          <img src="assets/garden/garden-flower-c.svg" alt="" style="display:block;max-width:none;width:100%;height:100%">
+        </div>
+          </div>
+          <div class="garden-art__layer garden-art__bloom garden-art__bud" style="--d:0.5s;left:193.56px;top:450.74px;width:20.52px;height:22.50px">
+            <img src="assets/garden/garden-bud-1.svg" alt="" style="position:absolute;display:block;top:0;right:0;bottom:0;left:0;max-width:none;width:100%;height:100%">
+          </div>
+          <div class="garden-art__layer garden-art__bloom garden-art__bud" style="--d:0.9s;left:97.32px;top:506.20px;width:20.52px;height:22.24px">
+            <img src="assets/garden/garden-bud-2.svg" alt="" style="position:absolute;display:block;top:0;right:0;bottom:0;left:0;max-width:none;width:100%;height:100%">
+          </div>
+          <div class="garden-art__layer garden-art__bloom garden-art__bud" style="--d:1.3s;left:348.00px;top:470.62px;width:24.72px;height:26.68px">
+            <img src="assets/garden/garden-bud-3.svg" alt="" style="position:absolute;display:block;top:0;right:0;bottom:0;left:0;max-width:none;width:100%;height:100%">
+          </div>
+          </div>
+        </div>
+        <div class="garden-hero__text">
+          <h1 id="hero-title" class="garden-hero__title reveal reveal-onload reveal-1">Hi, I’m Xintong!</h1>
+          <p class="garden-hero__intro reveal reveal-onload reveal-2">Product designer @ Cornell growing thoughtful experiences through curiosity and care</p>
+          <div class="hero__status garden-hero__status reveal reveal-onload reveal-3">
             <span>Currently designing @</span>
             <div class="hero__companies">
               <a href="https://www.designconsultingcornell.com/" target="_blank" rel="noopener noreferrer" aria-label="Design Consulting Cornell">
@@ -57,24 +157,6 @@
                 <img src="assets/company-2.png" alt="">
               </a>
             </div>
-          </div>
-        </div>
-
-        <div class="sticker-board reveal reveal-onload reveal-4">
-          <div class="sticker-board__surface" role="group" aria-label="Decorative sticker board. Drag the stickers to rearrange it.">
-            <img class="sticker" data-id="polaroid-portrait" src="assets/board/polaroid-portrait.png" alt="Polaroid illustration of Xintong in a white top" draggable="false" style="left:12.36%;top:20.51%;width:33.46%">
-            <img class="sticker" data-id="heart-bunny" src="assets/board/heart-bunny.png" alt="Blue heart sticker with a white bunny" draggable="false" style="left:47.15%;top:27.07%;width:15.59%">
-            <img class="sticker" data-id="flower-oval" src="assets/board/flower-oval.png" alt="Blue flower sticker" draggable="false" style="left:69.20%;top:19.37%;width:14.26%">
-            <img class="sticker" data-id="clover" src="assets/board/clover.png" alt="Blue clover sticker" draggable="false" style="left:83.59%;top:46.06%;width:8.62%">
-            <img class="sticker" data-id="heart-outline" src="assets/board/heart-outline.png" alt="Heart doodle" draggable="false" style="left:85.87%;top:71.89%;width:4.18%">
-            <img class="sticker" data-id="music-note" src="assets/board/music-note.png" alt="Music note" draggable="false" style="left:62.74%;top:54.70%;width:5.32%">
-            <img class="sticker" data-id="heart-blue" src="assets/board/heart-blue.png" alt="Blue heart" draggable="false" style="left:6.08%;top:48.43%;width:5.89%">
-            <img class="sticker" data-id="smiley" src="assets/board/smiley.png" alt="Smiley face sticker" draggable="false" style="left:9.32%;top:69.80%;width:9.13%">
-            <img class="sticker" data-id="violin" src="assets/board/violin.png" alt="Blue violin" draggable="false" style="left:72.62%;top:59.26%;width:11.03%">
-            <img class="sticker" data-id="matcha" src="assets/board/matcha.png" alt="Matcha latte in a blue teacup" draggable="false" style="left:48.67%;top:64.67%;width:14.64%">
-          </div>
-          <div class="sticker-board__footer">
-            <button type="button" class="sticker-board__reset" hidden>Reset board</button>
           </div>
         </div>
       </section>
@@ -169,13 +251,182 @@
           </div>
         </div>
       </section>
+
+      <section class="bouquet-section" aria-labelledby="bouquet-title">
+        <div class="bouquet-section__head reveal">
+          <h2 id="bouquet-title" class="bouquet-section__title">Build a bouquet</h2>
+          <p class="bouquet-section__hint">Drag flowers into the bouquet</p>
+        </div>
+        <div class="bouquet-board">
+          <button type="button" class="bouquet-flower" data-flower="rose" style="left:3px" aria-label="Rose: drag into the bouquet">
+            <div style="position:absolute;top:43.08%;right:21.94%;bottom:10%;left:22.75%" data-layer="Stem-and-leaves">
+            <div style="position:absolute;top:-2.13%;right:0;bottom:-2.13%;left:0">
+              <img src="assets/garden/stem-and-leaves.svg" alt="" style="display:block;max-width:none;width:100%;height:100%">
+            </div>
+          </div>
+          <div style="position:absolute;display:contents;top:12.19%;right:22.59%;bottom:47.09%;left:19.34%" data-layer="Flower-head">
+            <div style="position:absolute;top:12.19%;right:22.59%;bottom:47.09%;left:19.34%" data-layer="Rose-petals">
+              <img src="assets/garden/rose-petals.svg" alt="" style="position:absolute;display:block;top:0;right:0;bottom:0;left:0;max-width:none;width:100%;height:100%">
+            </div>
+          </div>
+          </button>
+          <button type="button" class="bouquet-flower" data-flower="sunflower" style="left:131px" aria-label="Sunflower: drag into the bouquet">
+            <div style="position:absolute;top:40.77%;right:21.94%;bottom:10%;left:22.75%" data-layer="Stem-and-leaves">
+            <div style="position:absolute;top:-2.03%;right:0;bottom:-2.03%;left:0">
+              <img src="assets/garden/stem-and-leaves1.svg" alt="" style="display:block;max-width:none;width:100%;height:100%">
+            </div>
+          </div>
+          <div style="position:absolute;display:contents;top:7.69%;right:20.55%;bottom:47.69%;left:20.55%" data-layer="Flower-head">
+            <div style="position:absolute;top:7.69%;right:20.55%;bottom:47.69%;left:20.55%" data-layer="Sunflower-petals">
+              <img src="assets/garden/sunflower-petals.svg" alt="" style="position:absolute;display:block;top:0;right:0;bottom:0;left:0;max-width:none;width:100%;height:100%">
+            </div>
+          </div>
+          </button>
+          <button type="button" class="bouquet-flower" data-flower="daisy" style="left:259px" aria-label="Daisy: drag into the bouquet">
+            <div style="position:absolute;top:43.85%;right:21.94%;bottom:10%;left:22.75%" data-layer="Stem-and-leaves">
+            <div style="position:absolute;top:-2.17%;right:0;bottom:-2.17%;left:0">
+              <img src="assets/garden/stem-and-leaves2.svg" alt="" style="display:block;max-width:none;width:100%;height:100%">
+            </div>
+          </div>
+          <div style="position:absolute;display:contents;top:15.38%;right:27%;bottom:49.23%;left:27%" data-layer="Flower-head">
+            <div style="position:absolute;top:15.38%;right:27%;bottom:49.23%;left:27%" data-layer="Daisy-petals">
+              <div style="position:absolute;top:-0.54%;right:-0.54%;bottom:-0.54%;left:-0.54%">
+                <img src="assets/garden/daisy-petals.svg" alt="" style="display:block;max-width:none;width:100%;height:100%">
+              </div>
+            </div>
+          </div>
+          </button>
+          <button type="button" class="bouquet-flower" data-flower="sprig" style="left:387px" aria-label="Flowering sprig: drag into the bouquet">
+            <div style="position:absolute;display:contents;top:5.85%;right:16.5%;bottom:9.23%;left:22.8%" data-layer="Flowering-sprig">
+            <div style="position:absolute;top:10%;right:22%;bottom:9.23%;left:28%" data-layer="Branching-stems">
+              <div style="position:absolute;top:-0.62%;right:-1.3%;bottom:-0.62%;left:-1.3%">
+                <img src="assets/garden/branching-stems.svg" alt="" style="display:block;max-width:none;width:100%;height:100%">
+              </div>
+            </div>
+            <div style="position:absolute;top:31.22%;right:23.88%;bottom:25.46%;left:33.99%" data-layer="Small-leaves">
+              <img src="assets/garden/small-leaves.svg" alt="" style="position:absolute;display:block;top:0;right:0;bottom:0;left:0;max-width:none;width:100%;height:100%">
+            </div>
+            <div style="position:absolute;display:contents;top:5.85%;right:16.5%;bottom:52.08%;left:22.8%" data-layer="Tiny-blossoms">
+              <div style="position:absolute;top:17.38%;right:64.5%;bottom:75.15%;left:24.8%" data-layer="Group">
+                <img src="assets/garden/blossom-10.svg" alt="" style="position:absolute;display:block;top:0;right:0;bottom:0;left:0;max-width:none;width:100%;height:100%">
+              </div>
+              <div style="position:absolute;top:10.46%;right:49.5%;bottom:82.08%;left:39.8%" data-layer="Group">
+                <img src="assets/garden/blossom-11.svg" alt="" style="position:absolute;display:block;top:0;right:0;bottom:0;left:0;max-width:none;width:100%;height:100%">
+              </div>
+              <div style="position:absolute;top:5.85%;right:29.5%;bottom:86.69%;left:59.8%" data-layer="Group">
+                <img src="assets/garden/blossom-12.svg" alt="" style="position:absolute;display:block;top:0;right:0;bottom:0;left:0;max-width:none;width:100%;height:100%">
+              </div>
+              <div style="position:absolute;top:21.23%;right:16.5%;bottom:71.31%;left:72.8%" data-layer="Group">
+                <img src="assets/garden/blossom-13.svg" alt="" style="position:absolute;display:block;top:0;right:0;bottom:0;left:0;max-width:none;width:100%;height:100%">
+              </div>
+              <div style="position:absolute;top:28.15%;right:36.5%;bottom:64.38%;left:52.8%" data-layer="Group">
+                <img src="assets/garden/blossom-14.svg" alt="" style="position:absolute;display:block;top:0;right:0;bottom:0;left:0;max-width:none;width:100%;height:100%">
+              </div>
+              <div style="position:absolute;top:32%;right:66.5%;bottom:60.54%;left:22.8%" data-layer="Group">
+                <img src="assets/garden/blossom-15.svg" alt="" style="position:absolute;display:block;top:0;right:0;bottom:0;left:0;max-width:none;width:100%;height:100%">
+              </div>
+              <div style="position:absolute;top:40.46%;right:25.5%;bottom:52.08%;left:63.8%" data-layer="Group">
+                <img src="assets/garden/blossom-14.svg" alt="" style="position:absolute;display:block;top:0;right:0;bottom:0;left:0;max-width:none;width:100%;height:100%">
+              </div>
+            </div>
+          </div>
+          </button>
+          <div class="bouquet" aria-label="Bouquet" data-count="0">
+            <div style="position:absolute;top:45%;right:20.38%;bottom:30.36%;left:14.01%" data-layer="Back-wrapping">
+            <img src="assets/garden/back-wrapping.svg" alt="" style="position:absolute;display:block;top:0;right:0;bottom:0;left:0;max-width:none;width:100%;height:100%">
+          </div>
+          <div style="position:absolute;top:22.14%;right:35%;bottom:5.77%;left:20%" data-layer="Stems">
+            <div style="position:absolute;top:-0.42%;right:-1.03%;bottom:-0.67%;left:-0.73%">
+              <img src="assets/garden/stems.svg" alt="" style="display:block;max-width:none;width:100%;height:100%">
+            </div>
+          </div>
+          <div style="position:absolute;top:15.71%;right:26.13%;bottom:37.14%;left:13.46%" data-layer="Foliage">
+            <img src="assets/garden/foliage.svg" alt="" style="position:absolute;display:block;top:0;right:0;bottom:0;left:0;max-width:none;width:100%;height:100%">
+          </div>
+          <div style="position:absolute;display:contents;top:19.73%;right:27.13%;bottom:45%;left:53.73%" data-layer="Delicate-filler">
+            <div style="position:absolute;display:contents;top:19.73%;right:27.13%;bottom:45%;left:53.73%" data-layer="Flowering-sprig">
+              <div style="position:absolute;top:21.43%;right:28.86%;bottom:45%;left:55.37%" data-layer="Branching-stems">
+                <div style="position:absolute;top:-0.57%;right:-1.3%;bottom:-0.57%;left:-1.3%">
+                  <img src="assets/garden/branching-stems1.svg" alt="" style="display:block;max-width:none;width:100%;height:100%">
+                </div>
+              </div>
+              <div style="position:absolute;top:30.37%;right:29.45%;bottom:54.12%;left:57.77%" data-layer="Small-leaves">
+                <img src="assets/garden/small-leaves1.svg" alt="" style="position:absolute;display:block;top:0;right:0;bottom:0;left:0;max-width:none;width:100%;height:100%">
+              </div>
+              <div style="position:absolute;display:contents;top:19.73%;right:27.13%;bottom:64.25%;left:53.73%" data-layer="Tiny-blossoms">
+                <div style="position:absolute;top:24.12%;right:42.27%;bottom:73.04%;left:54.36%" data-layer="Group">
+                  <img src="assets/garden/blossom-17.svg" alt="" style="position:absolute;display:block;top:0;right:0;bottom:0;left:0;max-width:none;width:100%;height:100%">
+                </div>
+                <div style="position:absolute;top:21.48%;right:37.53%;bottom:75.68%;left:59.09%" data-layer="Group">
+                  <img src="assets/garden/blossom-18.svg" alt="" style="position:absolute;display:block;top:0;right:0;bottom:0;left:0;max-width:none;width:100%;height:100%">
+                </div>
+                <div style="position:absolute;top:19.73%;right:31.23%;bottom:77.43%;left:65.4%" data-layer="Group">
+                  <img src="assets/garden/blossom-19.svg" alt="" style="position:absolute;display:block;top:0;right:0;bottom:0;left:0;max-width:none;width:100%;height:100%">
+                </div>
+                <div style="position:absolute;top:25.58%;right:27.13%;bottom:71.58%;left:69.5%" data-layer="Group">
+                  <img src="assets/garden/blossom-20.svg" alt="" style="position:absolute;display:block;top:0;right:0;bottom:0;left:0;max-width:none;width:100%;height:100%">
+                </div>
+                <div style="position:absolute;top:28.22%;right:33.43%;bottom:68.94%;left:63.19%" data-layer="Group">
+                  <img src="assets/garden/blossom-21.svg" alt="" style="position:absolute;display:block;top:0;right:0;bottom:0;left:0;max-width:none;width:100%;height:100%">
+                </div>
+                <div style="position:absolute;top:29.68%;right:42.9%;bottom:67.48%;left:53.73%" data-layer="Group">
+                  <img src="assets/garden/blossom-22.svg" alt="" style="position:absolute;display:block;top:0;right:0;bottom:0;left:0;max-width:none;width:100%;height:100%">
+                </div>
+                <div style="position:absolute;top:32.9%;right:29.97%;bottom:64.25%;left:66.66%" data-layer="Group">
+                  <img src="assets/garden/blossom-23.svg" alt="" style="position:absolute;display:block;top:0;right:0;bottom:0;left:0;max-width:none;width:100%;height:100%">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="position:absolute;display:contents;top:28.91%;right:61.07%;bottom:53.7%;left:18.38%" data-layer="Rose">
+            <div style="position:absolute;top:28.91%;right:61.07%;bottom:53.7%;left:18.38%" data-layer="Rose-petals">
+              <img src="assets/garden/rose-petals1.svg" alt="" style="position:absolute;display:block;top:0;right:0;bottom:0;left:0;max-width:none;width:100%;height:100%">
+            </div>
+          </div>
+          <div style="position:absolute;display:contents;top:13.05%;right:36.57%;bottom:65.2%;left:39.64%" data-layer="Sunflower">
+            <div style="position:absolute;top:13.05%;right:36.57%;bottom:65.2%;left:39.64%" data-layer="Sunflower-petals">
+              <img src="assets/garden/sunflower-petals1.svg" alt="" style="position:absolute;display:block;top:0;right:0;bottom:0;left:0;max-width:none;width:100%;height:100%">
+            </div>
+          </div>
+          <div style="position:absolute;display:contents;top:35.93%;right:27.54%;bottom:50.93%;left:58.31%" data-layer="Daisy">
+            <div style="position:absolute;top:35.93%;right:27.54%;bottom:50.93%;left:58.31%" data-layer="Daisy-petals">
+              <div style="position:absolute;top:-0.54%;right:-0.54%;bottom:-0.54%;left:-0.54%">
+                <img src="assets/garden/daisy-petals1.svg" alt="" style="display:block;max-width:none;width:100%;height:100%">
+              </div>
+            </div>
+          </div>
+          <div style="position:absolute;display:contents;top:45.78%;right:50.84%;bottom:46.5%;left:40.84%" data-layer="Small-daisy">
+            <div style="position:absolute;top:45.78%;right:50.84%;bottom:46.5%;left:40.84%" data-layer="Daisy-petals">
+              <div style="position:absolute;top:-0.54%;right:-0.54%;bottom:-0.54%;left:-0.54%">
+                <img src="assets/garden/daisy-petals2.svg" alt="" style="display:block;max-width:none;width:100%;height:100%">
+              </div>
+            </div>
+          </div>
+          <div style="position:absolute;top:47.44%;right:19.74%;bottom:1.9%;left:14.04%" data-layer="Cream-paper-wrap">
+            <img src="assets/garden/cream-paper-wrap.svg" alt="" style="position:absolute;display:block;top:0;right:0;bottom:0;left:0;max-width:none;width:100%;height:100%">
+          </div>
+          <div style="position:absolute;top:73.1%;right:44.93%;bottom:10.36%;left:34.78%" data-layer="Peach-ribbon">
+            <div style="position:absolute;top:-1.94%;right:-1.71%;bottom:-3.02%;left:-1.71%">
+              <img src="assets/garden/peach-ribbon.svg" alt="" style="display:block;max-width:none;width:100%;height:100%">
+            </div>
+          </div>
+          <div style="position:absolute;top:72.14%;right:11.15%;bottom:15.36%;left:47.31%" data-layer="Attached-note">
+            <div style="position:absolute;top:-1.14%;right:-0.37%;bottom:-1.14%;left:-0.32%">
+              <img src="assets/garden/attached-note.svg" alt="" style="display:block;max-width:none;width:100%;height:100%">
+            </div>
+          </div>
+          <p class="bouquet__note" style="position:absolute;left:185px;top:215px">For you</p>
+          </div>
+          <button type="button" class="bouquet-reset" hidden>Start over</button>
+        </div>
+      </section>
     </main>
 
     <footer class="footer">
       <hr class="footer__divider">
       <div class="footer__content">
         <div class="footer__top">
-          <p class="footer__heading">Thanks for visiting!</p>
+          <p class="footer__heading">Thanks for visiting my garden!</p>
           <div class="footer__social">
             <a href="https://www.linkedin.com/in/xintong-lin-930272238/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
               <img class="icon-linkedin" src="assets/icon-linkedin.png" alt="">
@@ -187,7 +438,7 @@
         </div>
 
         <div class="footer__bottom">
-          <p>Lets keep in touch :)</p>
+          <p class="footer__made">Made with <img src="assets/garden/heart-outline.svg" alt="love"> and care</p>
           <p class="footer__copyright">Copyright © 2026 Xintong Lin</p>
         </div>
       </div>

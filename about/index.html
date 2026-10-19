@@ -10,7 +10,7 @@
   <link rel="icon" type="image/png" sizes="64x64" href="../assets/favicon-64.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
@@ -18,7 +18,7 @@
     <header>
       <nav class="nav" aria-label="Main navigation">
         <a href="/" class="nav__logo" aria-label="Home">
-          <img src="../assets/logo.png" alt="Xintong Lin logo">
+          <img class="nav__logo-icon" src="../assets/logo-flower.svg" alt="Xintong Lin logo">
         </a>
         <button class="nav__toggle" aria-label="Toggle menu" aria-expanded="false">
           <span></span><span></span><span></span>
@@ -49,7 +49,7 @@
 
       <section class="about__experiences">
         <h2 class="about__heading about__heading--icon reveal">
-          <img src="../assets/board/smiley.png" alt="">
+          <img src="../assets/about/icon-leaf.svg" alt="">
           Experiences
         </h2>
         <ul class="about__jobs reveal reveal-2">
@@ -68,7 +68,7 @@
 
       <section class="about__section">
         <h2 class="about__heading about__heading--icon reveal">
-          <img src="../assets/board/heart-blue.png" alt="">
+          <img class="about__heading-icon--tall" src="../assets/about/icon-communities.svg" alt="">
           Communities I’m involved in
         </h2>
         <div class="about__communities">
@@ -120,40 +120,119 @@
       </section>
 
       <section class="about__section about__bag-section">
-        <div class="about__bag-head reveal">
-          <h2 class="about__heading">My bag</h2>
-          <p class="about__bag-caption">Click on each item to learn more</p>
-        </div>
+        <h2 class="about__heading about__heading--icon about__bag-head reveal">
+          <img src="../assets/about/icon-leaf.svg" alt="">
+          My bag
+        </h2>
         <div class="bag-scene reveal">
           <button type="button" class="bag-tote" aria-expanded="false" aria-label="Open my bag">
             <img src="../assets/bag/tote.png" alt="Cream Miffy strawberry tote bag">
           </button>
           <ul class="bag-items" aria-label="What’s in my bag">
-            <li class="bag-item" data-slug="music" data-tone="#9fb6c9" data-href="/about/music/" style="--i:3;--x-d:75.53;--y-d:13.33;--w-d:7.54;--x-m:44;--y-m:6;--w-m:24;--r:-3deg">
-              <button type="button" class="bag-item__btn" tabindex="-1">
+            <li class="bag-item" data-slug="music" data-tone="#9fb6c9" style="--i:3;--x-d:79.81;--y-d:17.02;--w-d:7.54;--x-m:44;--y-m:6;--w-m:24;--r:-3deg">
+              <button type="button" class="bag-item__btn" aria-controls="bag-drop" aria-expanded="false" tabindex="-1">
                 <span class="bag-item__obj"><img src="../assets/bag/airpods.png" alt=""></span>
                 <span class="bag-item__label">Music</span>
               </button>
             </li>
-            <li class="bag-item" data-slug="camera" data-tone="#8ec5e8" data-href="/about/album/" style="--i:2;--x-d:61.29;--y-d:24.73;--w-d:9.29;--x-m:72;--y-m:4;--w-m:25;--r:2deg">
-              <button type="button" class="bag-item__btn" tabindex="-1">
+            <li class="bag-item" data-slug="camera" data-tone="#8ec5e8" style="--i:2;--x-d:62.17;--y-d:14.63;--w-d:9.29;--x-m:72;--y-m:4;--w-m:25;--r:2deg">
+              <button type="button" class="bag-item__btn" aria-controls="bag-drop" aria-expanded="false" tabindex="-1">
                 <span class="bag-item__obj"><img src="../assets/bag/camera.png" alt=""></span>
                 <span class="bag-item__label">Camera</span>
               </button>
             </li>
-            <li class="bag-item" data-slug="drinks" data-tone="#9cc8ec" data-href="/about/drinks/" style="--i:0;--x-d:30.61;--y-d:12.46;--w-d:7.35;--x-m:48;--y-m:40;--w-m:18;--r:3deg">
-              <button type="button" class="bag-item__btn" tabindex="-1">
+            <li class="bag-item" data-slug="drinks" data-tone="#9cc8ec" style="--i:0;--x-d:30.61;--y-d:12.46;--w-d:7.35;--x-m:48;--y-m:40;--w-m:18;--r:3deg">
+              <button type="button" class="bag-item__btn" aria-controls="bag-drop" aria-expanded="false" tabindex="-1">
                 <span class="bag-item__obj"><img src="../assets/bag/cup.png" alt=""></span>
                 <span class="bag-item__label">Drinks</span>
               </button>
             </li>
-            <li class="bag-item" data-slug="eats" data-tone="#a7bde6" data-href="/about/kitchen/" style="--i:1;--x-d:41.87;--y-d:24.44;--w-d:10.81;--x-m:70;--y-m:44;--w-m:28;--r:-2deg">
-              <button type="button" class="bag-item__btn" tabindex="-1">
+            <li class="bag-item" data-slug="eats" data-tone="#a7bde6" style="--i:1;--x-d:44.59;--y-d:13.95;--w-d:10.81;--x-m:70;--y-m:44;--w-m:28;--r:-2deg">
+              <button type="button" class="bag-item__btn" aria-controls="bag-drop" aria-expanded="false" tabindex="-1">
                 <span class="bag-item__obj"><img src="../assets/bag/bowl.png" alt=""></span>
                 <span class="bag-item__label">Eats</span>
               </button>
             </li>
           </ul>
+        </div>
+        <div class="bag-drop" id="bag-drop">
+          <div class="bag-drop__box">
+            <img class="bag-drop__pointer" src="../assets/bag/drop-pointer.svg" alt="">
+            <div class="bag-drop__panel" role="region" aria-label="Bag item details">
+              <div class="bag-drop__stage">
+          <section class="bag-drop__item" data-for="drinks" hidden>
+            <div class="bag-drop__head">
+              <span class="bag-drop__chip"><span class="bag-drop__chip-icon"><img src="../assets/bag/cup.png" alt=""></span>My Cafe</span>
+              <h3 class="bag-drop__title">Welcome to My Cafe</h3>
+            </div>
+            <div class="bag-drop__drinks">
+              <article class="bag-drop__drink">
+                <p class="bag-drop__drink-tag">SIGNATURE DRINK</p>
+                <p class="bag-drop__drink-name">Jasmine Matcha Latte</p>
+                <ul><li>Brewed Jasmine Tea</li><li>Matcha Powder</li><li>Whole milk</li><li>Cloud cold foam</li></ul>
+                <img src="../assets/drinks/jasmine-matcha.png" alt="" style="width:100.1px;height:133.5px">
+              </article>
+              <article class="bag-drop__drink">
+                <p class="bag-drop__drink-tag">SIGNATURE DRINK</p>
+                <p class="bag-drop__drink-name">Pistachio Jasmine Coco</p>
+                <ul><li>Brewed Jasmine Tea</li><li>Fresh coconut water</li><li>Pistachio cold foam</li><li>Pistachio chunks</li></ul>
+                <img src="../assets/drinks/pistachio-jasmine.png" alt="" style="width:95.9px;height:127.8px">
+              </article>
+              <article class="bag-drop__drink">
+                <p class="bag-drop__drink-tag">SIGNATURE DRINK</p>
+                <p class="bag-drop__drink-name">Tiramisu Latte</p>
+                <ul><li>Espresso</li><li>Whole milk</li><li>Tiramisu cold foam</li><li>Coco powder</li></ul>
+                <img src="../assets/drinks/tiramisu.png" alt="" style="width:100.1px;height:133.5px">
+              </article>
+            </div>
+          </section>
+          <section class="bag-drop__item" data-for="eats" hidden>
+            <div class="bag-drop__head">
+              <span class="bag-drop__chip"><span class="bag-drop__chip-icon"><img src="../assets/bag/bowl.png" alt=""></span>My Kitchen</span>
+              <h3 class="bag-drop__title">Welcome to My Kitchen</h3>
+            </div>
+            <img class="bag-drop__photo" src="../assets/kitchen/photo-1.jpg" alt="Enoki beef rolls" loading="lazy" style="left:40px;top:160.31px;width:163.2px;height:217.6px">
+            <img class="bag-drop__photo" src="../assets/kitchen/photo-2.jpg" alt="Beef sukiyaki dinner" loading="lazy" style="left:231px;top:212.31px;width:163.2px;height:217.6px">
+            <img class="bag-drop__photo" src="../assets/kitchen/photo-3.jpg" alt="Beef udon" loading="lazy" style="left:428.18px;top:160.31px;width:185.77px;height:217.93px">
+            <img class="bag-drop__photo" src="../assets/kitchen/photo-8.jpg" alt="Braised ribs" loading="lazy" style="left:645px;top:212px;width:153.3px;height:220.2px">
+            <img class="bag-drop__photo" src="../assets/kitchen/photo-6.jpg" alt="Prosciutto brie toasts" loading="lazy" style="left:829.41px;top:160.06px;width:163.1px;height:219.37px">
+            <img class="bag-drop__tape" src="../assets/kitchen/tape-wide.png" alt="" style="left:283px;top:198.9px">
+            <img class="bag-drop__tape" src="../assets/kitchen/tape-wide.png" alt="" style="left:692.4px;top:195.9px">
+            <span class="bag-drop__label" style="left:53.86px;top:358.48px">Enoki Beef</span>
+            <span class="bag-drop__label" style="left:244.86px;top:410.48px">Beef Sukiyaki</span>
+            <span class="bag-drop__label" style="left:453.46px;top:358.48px">Beef udon</span>
+            <span class="bag-drop__label" style="left:653.97px;top:411.8px">Braised Ribs</span>
+            <span class="bag-drop__label" style="left:843.27px;top:359.86px">Prosciutto Brie</span>
+          </section>
+          <section class="bag-drop__item" data-for="camera" hidden>
+            <div class="bag-drop__head">
+              <span class="bag-drop__chip"><span class="bag-drop__chip-icon"><img src="../assets/bag/camera.png" alt=""></span>My Album</span>
+              <h3 class="bag-drop__title">Welcome to My Album</h3>
+            </div>
+            <div class="bag-drop__board">
+              <img class="bag-drop__print bag-drop__print--landscape" src="../assets/album/blossom-group.jpg" alt="" loading="lazy" style="left:118.9px;top:295.2px;--r:4.15deg">
+              <img class="bag-drop__print bag-drop__print--portrait" src="../assets/album/blossom-picnic.jpg" alt="" loading="lazy" style="left:113.3px;top:101.0px;--r:-3.07deg">
+              <img class="bag-drop__print bag-drop__print--portrait" src="../assets/album/restaurant-group.jpg" alt="" loading="lazy" style="left:592.2px;top:270.5px;--r:3.25deg">
+              <img class="bag-drop__print bag-drop__print--portrait" src="../assets/album/sunflower-field.jpg" alt="" loading="lazy" style="left:320.9px;top:105.0px;--r:2.69deg">
+              <img class="bag-drop__print bag-drop__print--portrait" src="../assets/album/campus-selfie.jpg" alt="" loading="lazy" style="left:833.8px;top:92.8px;--r:3.66deg">
+              <img class="bag-drop__print bag-drop__print--landscape" src="../assets/album/lawn-friends.jpg" alt="" loading="lazy" style="left:823.2px;top:268.8px;--r:3.52deg">
+              <img class="bag-drop__print bag-drop__print--portrait" src="../assets/album/mirror-friends.jpg" alt="" loading="lazy" style="left:365.2px;top:288.8px;--r:-2.99deg">
+              <img class="bag-drop__print bag-drop__print--landscape" src="../assets/album/blossom-selfie.jpg" alt="" loading="lazy" style="left:563.2px;top:100.7px;--r:-3.0deg">
+            </div>
+          </section>
+          <section class="bag-drop__item" data-for="music" hidden>
+            <div class="bag-drop__head">
+              <span class="bag-drop__chip"><span class="bag-drop__chip-icon"><img src="../assets/bag/airpods.png" alt=""></span>My Playlist</span>
+              <h3 class="bag-drop__title">Welcome to My Playlist</h3>
+            </div>
+            <figure class="bag-drop__concert" style="left:42px;width:223.5px"><img src="../assets/music/concert-ed-sheeran.jpg" alt="" loading="lazy"><figcaption>Ed Sheeran Loop Tour</figcaption></figure>
+            <figure class="bag-drop__concert" style="left:290.77px;width:167.67px"><img src="../assets/music/concert-sunkis.jpg" alt="" loading="lazy"><figcaption>Sunkis @ Cornell</figcaption></figure>
+            <figure class="bag-drop__concert" style="left:483.29px;width:223.39px"><img src="../assets/music/concert-blackpink.jpg" alt="" loading="lazy"><figcaption>Blackpink Deadline Tour</figcaption></figure>
+            <figure class="bag-drop__concert" style="left:731.18px;width:237.07px"><img src="../assets/music/concert-chainsmokers.jpg" alt="" loading="lazy"><figcaption>Chainsmokers @ Cornell</figcaption></figure>
+          </section>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </main>

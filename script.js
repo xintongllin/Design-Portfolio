@@ -1,3 +1,6 @@
+// Any page visit counts as having entered the site, so the home intro won't replay this session.
+try { sessionStorage.setItem('garden-intro-seen', '1'); } catch (e) { /* storage blocked */ }
+
 const stickerBoard = document.querySelector('.sticker-board');
 
 if (stickerBoard) {
@@ -385,6 +388,7 @@ if (bagScene) {
   };
 
   const packUp = () => {
+    if (typeof closeDrop === 'function') closeDrop();
     busy = true;
     setOpenState(false);
     setItemsFocusable(false);
@@ -510,11 +514,74 @@ if (bagScene) {
     }
   };
 
-  items.forEach((item) => {
-    item.querySelector('.bag-item__btn').addEventListener('click', () => {
-      if (!busy && isOpen && !openItem) openPage(item);
+  // Hovering (or focusing / tapping) an item opens its dropdown panel below the bag.
+  const drop = document.getElementById('bag-drop');
+  const dropPanel = drop && drop.querySelector('.bag-drop__panel');
+  const dropPointer = drop && drop.querySelector('.bag-drop__pointer');
+  let dropFor = null;
+  let closeTimer = 0;
+
+  const fitDrop = () => {
+    // The panel content is designed at 1030x516; scale it to the panel's width (min 0.62, then scroll).
+    const scale = Math.max(0.62, Math.min(1, (dropPanel.clientWidth || 1026) / 1026));
+    drop.style.setProperty('--scale', scale.toFixed(4));
+  };
+
+  const pointAt = (item) => {
+    const box = drop.getBoundingClientRect();
+    const obj = item.querySelector('.bag-item__obj').getBoundingClientRect();
+    drop.style.setProperty('--pointer-x', `${obj.left + obj.width / 2 - box.left}px`);
+  };
+
+  const openDrop = (item) => {
+    if (!drop || !isOpen) return;
+    clearTimeout(closeTimer);
+    const slug = item.dataset.slug;
+    pointAt(item);
+    if (dropFor !== slug) {
+      drop.querySelectorAll('.bag-drop__item').forEach((sec) => { sec.hidden = sec.dataset.for !== slug; });
+      items.forEach((it) => it.querySelector('.bag-item__btn').setAttribute('aria-expanded', String(it === item)));
+      dropFor = slug;
+    }
+    fitDrop();
+    drop.classList.add('is-open');
+  };
+
+  const closeDrop = () => {
+    if (!drop) return;
+    clearTimeout(closeTimer);
+    drop.classList.remove('is-open');
+    items.forEach((it) => it.querySelector('.bag-item__btn').setAttribute('aria-expanded', 'false'));
+    dropFor = null;
+  };
+
+  const closeSoon = () => {
+    clearTimeout(closeTimer);
+    closeTimer = setTimeout(closeDrop, 350);
+  };
+
+  if (drop) {
+    items.forEach((item) => {
+      const btn = item.querySelector('.bag-item__btn');
+      btn.addEventListener('pointerenter', (e) => { if (e.pointerType !== 'touch') openDrop(item); });
+      btn.addEventListener('pointerleave', (e) => { if (e.pointerType !== 'touch') closeSoon(); });
+      btn.addEventListener('focus', () => openDrop(item));
+      btn.addEventListener('click', () => {
+        if (busy || !isOpen) return;
+        if (dropFor === item.dataset.slug && matchMedia('(hover: none)').matches) closeDrop();
+        else openDrop(item);
+      });
     });
-  });
+    drop.addEventListener('pointerenter', () => clearTimeout(closeTimer));
+    drop.addEventListener('pointerleave', (e) => { if (e.pointerType !== 'touch') closeSoon(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDrop(); });
+    window.addEventListener('resize', () => {
+      fitDrop();
+      const current = items.find((it) => it.dataset.slug === dropFor);
+      if (current) pointAt(current);
+    });
+    fitDrop();
+  }
 
   backBtn.addEventListener('click', requestClose);
 
@@ -705,4 +772,243 @@ if (albumBoard) {
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeLightbox();
   });
+}
+
+const intro = document.querySelector('.intro');
+
+if (intro) {
+  const root = document.documentElement;
+  const timers = [];
+  let finished = false;
+
+  const finish = () => {
+    if (finished) return;
+    finished = true;
+    timers.forEach(clearTimeout);
+    try { sessionStorage.setItem('garden-intro-seen', '1'); } catch (e) { /* ignore */ }
+    intro.classList.add('is-running', 'is-done');
+    // Land on the top of the home page (the garden), whatever the scroll position was.
+    root.style.scrollBehavior = 'auto';
+    window.scrollTo(0, 0);
+    root.style.scrollBehavior = '';
+    // Releasing the class lets the home page's load-in animations play as the intro fades.
+    root.classList.remove('intro-on');
+    document.dispatchEvent(new Event('garden:intro-done'));
+    setTimeout(() => intro.remove(), 700);
+  };
+
+  if (!root.classList.contains('intro-on')) {
+    intro.remove();
+  } else {
+    intro.classList.add('is-running');
+    window.scrollTo(0, 0);
+    const at = (ms, fn) => timers.push(setTimeout(fn, ms));
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      at(1200, finish);
+    } else {
+      // The window starts opening as soon as it appears.
+      at(2300, () => intro.classList.add('is-window'));
+      at(2450, () => intro.classList.add('is-open'));
+      at(4150, () => intro.classList.add('is-zoom'));
+      at(4950, finish);
+    }
+    // Esc (or Enter/Space) still skips straight to the page.
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') finish();
+    });
+  }
+}
+
+const bouquet = document.querySelector('.bouquet');
+
+if (bouquet) {
+  const flowers = Array.from(document.querySelectorAll('.bouquet-flower'));
+  const resetBtn = document.querySelector('.bouquet-reset');
+  const wrap = bouquet.querySelector('[data-layer="Cream-paper-wrap"]');
+  const MAX_EXTRA = 24;
+
+  // The bouquet starts full (as in Figma); each flower dropped in adds another one,
+  // tucked in behind the paper wrap at a random spot among the others.
+  const place = (flower) => {
+    const extra = document.createElement('div');
+    extra.className = 'bouquet__extra';
+    extra.innerHTML = flower.innerHTML;
+    const scale = 0.62 + Math.random() * 0.14;
+    // Flower head sits about 35px down the 130px flower, so on the bouquet it lands here:
+    const headAt = (cx, cy) => [cx, cy + 130 - 95 * scale];
+    // Spread flowers out: try several random spots and keep the one with the most room
+    // around it (away from the original flowers and any already added).
+    const taken = [[74, 103], [134, 67], [170, 119], [117, 139], [165, 92]];
+    bouquet.querySelectorAll('.bouquet__extra').forEach((el) => {
+      taken.push(headAt(parseFloat(el.style.left), parseFloat(el.style.top)));
+    });
+    let x = 0;
+    let y = 0;
+    let best = -1;
+    for (let i = 0; i < 16; i++) {
+      const cx = 76 + Math.random() * 84;
+      const cy = Math.random() * 50;
+      const [hx, hy] = headAt(cx, cy);
+      const room = Math.min(...taken.map(([tx, ty]) => Math.hypot(hx - tx, hy - ty)));
+      if (room > best) { best = room; x = cx; y = cy; }
+    }
+    const rot = (x - 118) / 5 + (Math.random() * 8 - 4);
+    extra.style.cssText = `left:${x.toFixed(1)}px;top:${y.toFixed(1)}px;--s:${scale.toFixed(2)};--r:${rot.toFixed(1)}deg`;
+
+    // Where this flower's own stem ends (13px above its rotated base), and a line from
+    // there down to the tie, behind the wrap, so the flower is rooted at the bottom.
+    const rad = (rot * Math.PI) / 180;
+    const sx = x + 13 * scale * Math.sin(rad);
+    const sy = y + 130 - 13 * scale * Math.cos(rad);
+    const tx = 117 + (sx - 117) * 0.2;
+    const ty = 205;
+    const stemLine = document.createElement('div');
+    stemLine.className = 'bouquet__stem';
+    stemLine.style.cssText = `left:${sx.toFixed(1)}px;top:${(sy - 1).toFixed(1)}px;width:${Math.hypot(tx - sx, ty - sy).toFixed(1)}px;transform:rotate(${Math.atan2(ty - sy, tx - sx).toFixed(4)}rad)`;
+    const group = document.createElement('div');
+    group.className = 'bouquet__add';
+    group.append(stemLine, extra);
+    wrap.parentNode.insertBefore(group, wrap);
+    const groups = bouquet.querySelectorAll('.bouquet__add');
+    if (groups.length > MAX_EXTRA) groups[0].remove();
+    if (resetBtn) resetBtn.hidden = false;
+    flower.style.translate = '';
+  };
+
+  const overBouquet = (x, y) => {
+    const r = bouquet.getBoundingClientRect();
+    return x >= r.left && x <= r.right && y >= r.top && y <= r.bottom;
+  };
+
+  flowers.forEach((flower) => {
+    let start = null;
+    let moved = false;
+
+    flower.addEventListener('pointerdown', (e) => {
+      if (e.button !== 0) return;
+      start = { x: e.clientX, y: e.clientY };
+      moved = false;
+      flower.setPointerCapture(e.pointerId);
+    });
+
+    flower.addEventListener('pointermove', (e) => {
+      if (!start) return;
+      const dx = e.clientX - start.x;
+      const dy = e.clientY - start.y;
+      if (!moved && Math.hypot(dx, dy) < 4) return;
+      moved = true;
+      flower.classList.add('is-dragging');
+      flower.style.translate = `${dx}px ${dy}px`;
+      bouquet.classList.toggle('is-target', overBouquet(e.clientX, e.clientY));
+    });
+
+    const end = (e) => {
+      if (!start) return;
+      start = null;
+      flower.classList.remove('is-dragging');
+      bouquet.classList.remove('is-target');
+      if (moved && overBouquet(e.clientX, e.clientY)) place(flower);
+      // The loose flower always springs back so it can be added again.
+      flower.style.translate = '';
+    };
+
+    flower.addEventListener('pointerup', end);
+    flower.addEventListener('pointercancel', end);
+
+    // Keyboard (and a plain tap) adds the flower straight to the bouquet.
+    flower.addEventListener('click', () => {
+      if (!moved) place(flower);
+      moved = false;
+    });
+  });
+
+  if (resetBtn) {
+    resetBtn.addEventListener('click', () => {
+      bouquet.querySelectorAll('.bouquet__add').forEach((el) => el.remove());
+      resetBtn.hidden = true;
+    });
+  }
+}
+
+const gardenSky = document.querySelector('.garden-art__sky');
+
+if (gardenSky) {
+  // Start each cloud partway through its loop so it begins at its Figma position.
+  const startClouds = () => {
+    const vw = gardenSky.clientWidth;
+    const stageLeft = (vw - 1200) / 2;
+    const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    gardenSky.querySelectorAll('.garden-art__cloud').forEach((cloud) => {
+      const x = stageLeft + Number(cloud.dataset.x);
+      if (still) {
+        cloud.style.animation = 'none';
+        cloud.style.translate = `${x}px 0`;
+        return;
+      }
+      // One loop moves a pair exactly one screen-width, so its progress is just x / width.
+      const dur = parseFloat(getComputedStyle(cloud).animationDuration);
+      const progress = (((x % vw) + vw) % vw) / vw;
+      cloud.style.animationDelay = `${-progress * dur}s`;
+    });
+    gardenSky.classList.add('is-ready');
+  };
+  startClouds();
+}
+
+
+const gardenArt = document.querySelector('.garden-art');
+
+if (gardenArt) {
+  // Click the grass to grow a little flower, like baothiento.com.
+  const PETAL = 'M14.2 6.72194C14.2 10.442 12.4554 13.4439 10.2869 13.4439C8.11844 13.4439 6.37387 10.442 6.37387 6.72194C6.37387 3.00185 8.11844 0 10.2869 0C12.4554 0 14.2 3.00185 14.2 6.72194ZM15.9934 14.6226C12.863 15.7644 9.79778 14.8067 9.12931 12.4863C8.46083 10.1658 10.45 7.3481 13.5804 6.20629C16.6945 5.06448 19.776 6.02213 20.4445 8.34259C21.113 10.663 19.1239 13.4623 15.9934 14.6226ZM9.89561 18.9872C7.9717 15.9854 7.82495 12.3758 9.56952 10.9393C11.3141 9.50282 14.2978 10.7735 16.238 13.7938C18.1619 16.7957 18.3087 20.3868 16.5641 21.8233C14.8195 23.2598 11.8358 21.9891 9.89561 18.9872ZM4.33582 13.7938C6.27604 10.7735 9.25974 9.50282 11.0043 10.9393C12.7489 12.3758 12.6021 15.9854 10.6782 18.9872C8.738 21.9891 5.75431 23.2598 4.00974 21.8233C2.26518 20.3868 2.41191 16.7957 4.33582 13.7938ZM6.99344 6.20629C10.1239 7.3481 12.113 10.1658 11.4445 12.4863C10.776 14.8067 7.71083 15.7644 4.58039 14.6226C1.44996 13.4623 -0.539178 10.663 0.1293 8.34259C0.797778 6.02213 3.87931 5.06448 6.99344 6.20629Z';
+  const CENTER = 'M10.2869 14.2719C11.8628 14.2719 13.1402 13.2825 13.1402 12.0619C13.1402 10.8414 11.8628 9.85196 10.2869 9.85196C8.71113 9.85196 7.43368 10.8414 7.43368 12.0619C7.43368 13.2825 8.71113 14.2719 10.2869 14.2719Z';
+  const COLORS = [
+    ['#FFFDE4', '#F2CF75'],
+    ['#F8B48B', '#F2CF75'],
+    ['#F9C9D4', '#E8899E'],
+    ['#D5EAF9', '#80A9D6'],
+    ['#E6D8F7', '#A98BD6'],
+    ['#FFFFFF', '#F4C95D'],
+    ['#FBE38E', '#E9A23B'],
+  ];
+  const GRASS_TOP = 470;
+  const GRASS_BOTTOM = 770;
+  const MAX_FLOWERS = 60;
+  const planted = document.createElement('div');
+  planted.className = 'garden-art__planted';
+  gardenArt.appendChild(planted);
+
+  const plant = (x, y, color, fixedSize) => {
+    const [petal, center] = color || COLORS[Math.floor(Math.random() * COLORS.length)];
+    const size = fixedSize || 16 + Math.random() * 12;
+    const flower = document.createElement('span');
+    flower.className = 'garden-flower';
+    flower.style.cssText = `left:${x}px;top:${y}px;width:${size}px;--r:${(Math.random() * 50 - 25).toFixed(1)}deg`;
+    flower.innerHTML = `<svg viewBox="0 0 20.5738 22.4146" aria-hidden="true"><path d="${PETAL}" fill="${petal}"/><path d="${CENTER}" fill="${center}"/></svg>`;
+    planted.appendChild(flower);
+
+    if (planted.children.length > MAX_FLOWERS) {
+      const oldest = planted.firstElementChild;
+      oldest.classList.add('is-leaving');
+      setTimeout(() => oldest.remove(), 400);
+    }
+  };
+
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('a, button, input, textarea, select, label, header, .project-card, .hero__status')) return;
+    const r = gardenArt.getBoundingClientRect();
+    const x = e.clientX - r.left;
+    const y = e.clientY - r.top;
+    if (y < GRASS_TOP || y > GRASS_BOTTOM || x < 0 || x > r.width) return;
+    plant(x, y);
+  });
+
+  // On arrival, the little flowers already in the garden pop up one by one,
+  // hinting that the grass can be clicked.
+  const showcase = () => gardenArt.classList.add('is-blooming');
+  if (document.documentElement.classList.contains('intro-on')) {
+    document.addEventListener('garden:intro-done', showcase, { once: true });
+  } else {
+    showcase();
+  }
 }

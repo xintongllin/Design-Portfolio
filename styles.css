@@ -158,17 +158,26 @@ header {
   transform: translateY(-7px) rotate(-45deg);
 }
 
+/* Figma: 30.6 x 30.4 flower icon. */
 .nav__logo {
-  width: 36px;
-  height: 33px;
-  overflow: hidden;
+  width: 31px;
+  height: 31px;
+  position: relative;
+  top: 3.5px;
+  overflow: visible;
   flex-shrink: 0;
   display: block;
   transition: transform 0.25s ease;
 }
 
-.nav__logo:hover {
-  transform: scale(1.1) rotate(-6deg);
+/* Flower icon spins half a turn on hover, like yuki-li.com (0.7s ease), and back on leave. */
+.nav__logo-icon {
+  transition: transform 0.7s ease;
+}
+
+.nav__logo:hover .nav__logo-icon,
+.nav__logo:focus-visible .nav__logo-icon {
+  transform: rotate(180deg);
 }
 
 .nav__logo img {
@@ -781,8 +790,12 @@ header {
 
 .about__heading--icon img {
   width: 36px;
-  height: auto;
+  height: 36px;
   flex-shrink: 0;
+}
+
+.about__heading--icon img.about__heading-icon--tall {
+  height: 39.2px;
 }
 
 /* Experiences */
@@ -910,14 +923,9 @@ header {
 }
 
 /* My bag */
-.about__bag-head {
-  margin-bottom: 13px;
-}
-
-.about__bag-caption {
-  margin-top: 9px;
-  font-size: 16px;
-  color: var(--color-primary);
+/* Figma: heading at y 2068, bag scene from y 2150. */
+.about__section > .about__bag-head {
+  margin-bottom: 44px;
 }
 
 /* Item positions use cqw so the whole scene scales with its width. */
@@ -925,7 +933,7 @@ header {
   --bag-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
   position: relative;
   container-type: inline-size;
-  aspect-ratio: 1030 / 380;
+  aspect-ratio: 1030 / 291;
 }
 
 .bag-tote {
@@ -1072,6 +1080,285 @@ header {
 
 @keyframes bagDrift {
   50% { translate: 0 -4px; rotate: 0.6deg; }
+}
+
+/* Bag item dropdown: hovering an item opens its panel below the bag (Figma "My Café dropdown").
+   The panel's content is laid out on a 1030x516 stage, scaled to fit by script.js. */
+.bag-drop {
+  --scale: 1;
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  visibility: hidden;
+  transition: grid-template-rows 0.45s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease, visibility 0s linear 0.45s;
+}
+
+.bag-drop.is-open {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  visibility: visible;
+  transition: grid-template-rows 0.45s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease;
+}
+
+.bag-drop__box {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+  padding-top: 17px;
+  margin-bottom: 8px;
+}
+
+.bag-drop__pointer {
+  position: absolute;
+  top: 1px;
+  left: var(--pointer-x, 50%);
+  width: 39px;
+  height: 18px;
+  translate: -50% 0;
+  z-index: 2;
+  transition: left 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.bag-drop__panel {
+  position: relative;
+  height: calc(516px * var(--scale));
+  overflow-x: auto;
+  overflow-y: hidden;
+  background: #f8fcff;
+  border: 2px solid #d6e9ff;
+  border-radius: 16px;
+  box-shadow: 0 8px 13px rgba(121, 168, 211, 0.1);
+}
+
+.bag-drop__stage {
+  position: relative;
+  width: 1026px;
+  height: 512px;
+  transform: scale(var(--scale));
+  transform-origin: 0 0;
+  font-family: "Lato", "Manrope", sans-serif;
+  color: #124f80;
+}
+
+.bag-drop__item {
+  position: absolute;
+  inset: 0;
+  animation: bagDropIn 0.35s ease both;
+}
+
+.bag-drop__item[hidden] {
+  display: none;
+}
+
+@keyframes bagDropIn {
+  from { opacity: 0; translate: 0 6px; }
+}
+
+.bag-drop__head {
+  position: absolute;
+  left: 40px;
+  top: 33px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 13px;
+}
+
+.bag-drop__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 13px;
+  height: 35px;
+  padding: 0 14px;
+  border-radius: 20px;
+  background: #e1effb;
+  font-size: 14px;
+}
+
+.bag-drop__chip-icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 22px;
+}
+
+.bag-drop__chip-icon img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.bag-drop__title {
+  margin: 0;
+  font-family: inherit;
+  font-size: 25px;
+  font-weight: 700;
+  color: #124f80;
+}
+
+/* Cafe */
+.bag-drop__drinks {
+  position: absolute;
+  left: 40px;
+  top: 157px;
+  width: 918px;
+  display: flex;
+  gap: 30px;
+}
+
+.bag-drop__drink {
+  position: relative;
+  flex: 1;
+  height: 298px;
+  padding: 22px 16px 13px 22px;
+  border: 1.3px solid #eaf3fc;
+  border-radius: 11.8px;
+  background: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 6.5px 19.6px rgba(17, 71, 110, 0.05);
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease;
+}
+
+.bag-drop__drink:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(17, 71, 110, 0.1);
+}
+
+.bag-drop__drink-tag {
+  font-size: 10.5px;
+  color: #86add2;
+}
+
+.bag-drop__drink-name {
+  margin-top: 7.8px;
+  font-size: 18.3px;
+}
+
+.bag-drop__drink ul {
+  margin-top: 7.8px;
+  list-style: none;
+  font-size: 13.7px;
+  color: #86add2;
+}
+
+.bag-drop__drink li {
+  margin-bottom: 2.6px;
+}
+
+.bag-drop__drink li::before {
+  content: "•";
+  margin-right: 8px;
+}
+
+.bag-drop__drink img {
+  position: absolute;
+  left: 109.8px;
+  top: 149px;
+  object-fit: contain;
+}
+
+/* Kitchen */
+.bag-drop__photo {
+  position: absolute;
+  object-fit: cover;
+  border-radius: 4.9px;
+}
+
+.bag-drop__tape {
+  position: absolute;
+  width: 59.6px;
+  height: auto;
+  rotate: 5.68deg;
+}
+
+.bag-drop__label {
+  position: absolute;
+  width: 134.6px;
+  height: 39.1px;
+  display: grid;
+  place-items: center;
+  border-radius: 7.9px;
+  background: #f4fbfe;
+  box-shadow: 0 3.3px 4.1px rgba(0, 0, 0, 0.1);
+  font-family: "Manrope", sans-serif;
+  font-size: 14.7px;
+  font-weight: 500;
+  color: #11476e;
+}
+
+/* Album */
+.bag-drop__board {
+  position: absolute;
+  left: 45px;
+  top: 129px;
+  width: 940px;
+  height: 352px;
+  border-radius: 6.9px;
+  background: #fbfeff;
+}
+
+.bag-drop__print {
+  position: absolute;
+  box-sizing: content-box;
+  padding: 9.07px 9.07px 27.9px;
+  border-radius: 2.9px;
+  background: #fff;
+  box-shadow: 0 1.5px 0.7px rgba(0, 0, 0, 0.25);
+  translate: -50% -50%;
+  rotate: var(--r);
+  transition: scale 0.35s cubic-bezier(0.34, 1.4, 0.64, 1), box-shadow 0.3s ease;
+}
+
+.bag-drop__print--portrait { width: 92.2px; height: 123px; }
+.bag-drop__print--landscape { width: 160.3px; height: 106px; object-fit: cover; }
+
+.bag-drop__print:hover {
+  scale: 1.07;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.13);
+}
+
+/* Playlist */
+.bag-drop__concert {
+  position: absolute;
+  top: 155px;
+  height: 298px;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 6.5px;
+}
+
+.bag-drop__concert img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.bag-drop__concert:hover img {
+  transform: scale(1.04);
+}
+
+.bag-drop__concert figcaption {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 20px 9px 9px;
+  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.65));
+  font-family: "Manrope", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bag-drop,
+  .bag-drop__pointer {
+    transition: none;
+  }
+
+  .bag-drop__item {
+    animation: none;
+  }
 }
 
 /* Item page that zooms out of the clicked item */
@@ -1831,6 +2118,589 @@ header {
   .album-lightbox,
   .album-lightbox__content {
     transition: none !important;
+  }
+}
+
+/* Garden intro: loading flowers -> window opens -> zoom into the garden (home page only) */
+.intro {
+  display: none;
+}
+
+.intro-on .intro,
+.intro.is-running {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: block;
+  overflow: hidden;
+  background: #f3faff;
+  transition: opacity 0.6s ease;
+}
+
+.intro-on body {
+  overflow: hidden;
+}
+
+.intro.is-done {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.intro__loader {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 11px;
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+.intro.is-window .intro__loader {
+  opacity: 0;
+  transform: scale(0.94);
+}
+
+.intro__flowers {
+  display: flex;
+  gap: 35px;
+}
+
+.intro__flowers img {
+  width: 67px;
+  height: auto;
+  opacity: 0;
+  transform: scale(0.3) rotate(-40deg);
+  animation: introBloom 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards, introSway 1.6s ease-in-out infinite;
+}
+
+.intro__flowers img:nth-child(1) { animation-delay: 0.15s, 0.7s; }
+.intro__flowers img:nth-child(2) { animation-delay: 0.6s, 1.15s; }
+.intro__flowers img:nth-child(3) { animation-delay: 1.05s, 1.6s; }
+
+@keyframes introBloom {
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes introSway {
+  50% { rotate: 8deg; translate: 0 -3px; }
+}
+
+.intro__text {
+  font-family: "Mali", "Manrope", sans-serif;
+  font-size: 30px;
+  font-weight: 600;
+  color: #4b7893;
+}
+
+.intro__text span {
+  animation: introDot 1.2s ease-in-out infinite;
+}
+
+.intro__text span:nth-child(2) { animation-delay: 0.2s; }
+.intro__text span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes introDot {
+  0%, 60%, 100% { opacity: 1; }
+  30% { opacity: 0.2; }
+}
+
+.intro__scene {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.intro.is-window .intro__scene {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.6s ease;
+}
+
+/* Stage matches the closed-window frame (648x486); the open window sits inside it exactly as in Figma. */
+.intro__window {
+  position: relative;
+  width: min(648px, 92vw);
+  aspect-ratio: 648.25 / 486.19;
+  transform: scale(0.9);
+  transform-origin: 50% 57%;
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.intro.is-window .intro__window {
+  transform: none;
+}
+
+.intro.is-zoom .intro__window {
+  transform: scale(9);
+  transition: transform 1.5s cubic-bezier(0.55, 0, 0.2, 1);
+}
+
+/* Open window (Figma art split into shutters + frame), placed exactly as in the Figma frame. */
+.intro__open {
+  position: absolute;
+  left: 3.645%;
+  top: 7.032%;
+  width: 92.727%;
+  height: 80.215%;
+  perspective: 2400px;
+}
+
+.intro__open-frame,
+.intro__open-shutter {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.intro__open-frame {
+  opacity: 0;
+}
+
+
+/* Shutters start edge-on to the viewer, on the same hinges as the closed sashes. */
+.intro__open-shutter {
+  opacity: 0;
+  will-change: transform;
+}
+
+.intro__open-shutter--left {
+  transform-origin: 15.76% 50%;
+  transform: rotateY(90deg);
+}
+
+.intro__open-shutter--right {
+  transform-origin: 84.23% 50%;
+  transform: rotateY(-90deg);
+}
+
+.intro__closed {
+  position: absolute;
+  inset: 0;
+  perspective: 2400px;
+}
+
+.intro__closed-frame,
+.intro__sash {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.intro__sash {
+  will-change: transform;
+}
+
+.intro__sash--left { transform-origin: 18.25% 50%; }
+.intro__sash--right { transform-origin: 81.75% 50%; }
+
+/* One continuous swing: closed sashes turn edge-on (easing in), then the open
+   shutters carry on from edge-on to their resting angle (easing out). */
+.intro.is-open .intro__sash--left {
+  animation: introSashLeft 0.75s cubic-bezier(0.55, 0, 1, 0.45) forwards;
+}
+
+.intro.is-open .intro__sash--right {
+  animation: introSashRight 0.75s cubic-bezier(0.55, 0, 1, 0.45) forwards;
+}
+
+@keyframes introSashLeft {
+  from { transform: rotateY(0); }
+  to { transform: rotateY(-90deg); visibility: hidden; }
+}
+
+@keyframes introSashRight {
+  from { transform: rotateY(0); }
+  to { transform: rotateY(90deg); visibility: hidden; }
+}
+
+.intro.is-open .intro__open-shutter {
+  animation: introShutterOpen 0.85s cubic-bezier(0, 0.55, 0.45, 1) 0.75s forwards;
+}
+
+@keyframes introShutterOpen {
+  from { opacity: 1; }
+  to { opacity: 1; transform: rotateY(0); }
+}
+
+/* The closed and open frames are nearly identical, so they trade places while the sashes turn. */
+.intro.is-open .intro__closed-frame {
+  animation: introFadeOut 0.45s ease 0.3s forwards;
+}
+
+.intro.is-open .intro__open-frame {
+  animation: introFadeIn 0.45s ease 0.3s forwards;
+}
+
+@keyframes introFadeIn {
+  to { opacity: 1; }
+}
+
+@keyframes introFadeOut {
+  to { opacity: 0; }
+}
+
+/* Hold the home page's load-in animations until the intro hands over. */
+.intro-on .reveal.reveal-onload {
+  opacity: 0;
+  transform: translateY(22px);
+}
+
+/* Garden hero (home page) */
+.garden-hero {
+  display: block;
+  position: static;
+  max-width: none;
+  height: 540px;
+  padding: 0;
+  margin: 0;
+}
+
+/* Lines up with the top of the page (the Figma frame), above the 54px header. */
+.garden-art {
+  position: absolute;
+  top: -54px;
+  left: calc(50% - 50vw);
+  width: 100vw;
+  height: 900px;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.garden-art__glow {
+  position: absolute;
+  left: -34px;
+  right: -34px;
+  top: 695px;
+  height: 52px;
+  background: #c9dc8f;
+  filter: blur(50px);
+}
+
+/* A 1200px stage matching the Figma frame, centred on the page. */
+.garden-art__stage {
+  position: absolute;
+  top: 0;
+  left: calc(50% - 600px);
+  width: 1200px;
+  height: 100%;
+}
+
+.garden-art__layer {
+  position: absolute;
+}
+
+/* Hills, meadow and foreground stretch edge to edge on wide screens. */
+.garden-art__ground {
+  left: calc(600px - 50vw - 15px) !important;
+  width: calc(100vw + 31px) !important;
+}
+
+/* Cloud pairs float steadily to the right on a seamless loop: each pair has a twin one
+   screen-width behind it, so as a pair drifts off the right edge it slides back in on the left.
+   script.js sets each loop's starting point so the page opens on the Figma layout. */
+.garden-art__sky {
+  position: absolute;
+  inset: 0;
+}
+
+.garden-art__cloud {
+  position: absolute;
+  left: 0;
+  animation: gardenCloudFloat var(--dur) linear infinite;
+  animation-play-state: paused;
+}
+
+.garden-art__sky.is-ready .garden-art__cloud {
+  animation-play-state: running;
+}
+
+/* Each pair (a big and a small cloud) travels together, like the Figma layout. */
+.garden-art__cloud-set {
+  position: absolute;
+  inset: 0;
+}
+
+.garden-art__cloud-set--twin {
+  left: -100vw;
+  right: 100vw;
+}
+
+.garden-art__cloud img {
+  position: absolute;
+}
+
+@keyframes gardenCloudFloat {
+  from { translate: 0 0; }
+  to { translate: 100vw 0; }
+}
+
+/* The three small Figma flowers start hidden and pop up in turn (script.js adds .is-blooming). */
+.garden-art__bud > * {
+  scale: 0;
+  transform-origin: 50% 50%;
+}
+
+.garden-art.is-blooming .garden-art__bud > * {
+  animation: gardenFlowerPop 0.35s ease-out var(--d) forwards;
+}
+
+/* Flowers planted by clicking the grass (script.js). */
+.garden-art__planted {
+  position: absolute;
+  inset: 0;
+}
+
+.garden-flower {
+  position: absolute;
+  display: block;
+  translate: -50% -50%;
+  rotate: var(--r);
+  animation: gardenFlowerPop 0.35s ease-out both;
+}
+
+.garden-flower svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  filter: drop-shadow(0 1px 1px rgba(60, 90, 40, 0.18));
+}
+
+.garden-flower.is-leaving {
+  transition: opacity 0.4s ease, scale 0.4s ease;
+  opacity: 0;
+  scale: 0.4;
+}
+
+/* Grows past full size, then settles (same curve as baothiento.com). */
+@keyframes gardenFlowerPop {
+  0% { scale: 0; }
+  60% { scale: 1.15; }
+  100% { scale: 1; }
+}
+
+
+
+header,
+main,
+.footer {
+  position: relative;
+  z-index: 1;
+}
+
+.garden-hero__text {
+  position: relative;
+  padding-top: 124px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.garden-hero__title {
+  margin: 0 0 0 -17px;
+  font-family: "Manjari", "Manrope", sans-serif;
+  font-size: 60px;
+  font-weight: 700;
+  line-height: 70px;
+  color: #084c82;
+}
+
+.garden-hero__intro {
+  width: 544px;
+  max-width: 100%;
+  margin: 7px 0 0 -12px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #000;
+}
+
+.garden-hero__status {
+  margin-top: 7px;
+  font-weight: 600;
+}
+
+
+/* Build a bouquet */
+.bouquet-section {
+  position: relative;
+  max-width: var(--content-width);
+  margin: 70px auto 54px;
+  padding: 0 var(--side-padding);
+  box-sizing: content-box;
+}
+
+.bouquet-board {
+  position: relative;
+  height: 280px;
+}
+
+.bouquet-section__head {
+  position: absolute;
+  top: 34px;
+  left: var(--side-padding);
+  color: #021625;
+  z-index: 1;
+}
+
+.bouquet-section__title {
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.bouquet-section__hint {
+  margin-top: 7px;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.bouquet-flower {
+  position: absolute;
+  top: 150px;
+  width: 100px;
+  height: 130px;
+  padding: 0;
+  border: 0;
+  background: none;
+  overflow: visible;
+  cursor: grab;
+  touch-action: none;
+  z-index: 2;
+  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.bouquet-flower > * {
+  pointer-events: none;
+}
+
+.bouquet-flower:hover,
+.bouquet-flower:focus-visible {
+  transform: translateY(-6px) rotate(-4deg);
+}
+
+.bouquet-flower:focus-visible {
+  outline: 2px solid var(--color-nav-active);
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+
+.bouquet-flower.is-dragging {
+  cursor: grabbing;
+  z-index: 10;
+  transition: none;
+  filter: drop-shadow(0 12px 14px rgba(17, 71, 110, 0.18));
+}
+
+.bouquet {
+  position: absolute;
+  left: 771px;
+  top: 0;
+  width: 260px;
+  height: 280px;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.bouquet.is-target {
+  transform: scale(1.05) rotate(-2deg);
+}
+
+/* Flowers added to the bouquet (script.js clones the loose flower in behind the wrapping). */
+.bouquet__extra {
+  position: absolute;
+  z-index: 0;
+  width: 100px;
+  height: 130px;
+  transform-origin: 50% 100%;
+  translate: -50% 0;
+  scale: var(--s);
+  rotate: var(--r);
+  pointer-events: none;
+}
+
+/* Stem continuation drawn from the added flower's stem down to where the bouquet is tied,
+   hidden behind the paper wrap, so every added flower is rooted at the bottom. */
+.bouquet__stem {
+  position: absolute;
+  height: 2px;
+  border-radius: 2px;
+  background: #8fa97a;
+  transform-origin: 0 50%;
+  pointer-events: none;
+}
+
+/* A new flower and its stem move together: they come in from above and slide down
+   into the bouquet stem-first, as if being tucked into the wrap. */
+.bouquet__add {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  animation: bouquetTuck 0.6s cubic-bezier(0.22, 0.9, 0.3, 1) both;
+}
+
+@keyframes bouquetTuck {
+  0% { translate: 0 -70px; opacity: 0; }
+  25% { opacity: 1; }
+  100% { translate: 0 0; opacity: 1; }
+}
+
+.bouquet__note {
+  font-family: "Inter", "Manrope", sans-serif;
+  font-size: 8px;
+  color: #807057;
+  white-space: nowrap;
+}
+
+.bouquet-reset {
+  position: absolute;
+  right: 0;
+  bottom: -34px;
+  font: inherit;
+  font-size: 13px;
+  color: var(--color-accent);
+  background: none;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  padding: 2px 10px;
+  cursor: pointer;
+}
+
+.bouquet-reset:hover,
+.bouquet-reset:focus-visible {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+.footer__made {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.footer__made img {
+  width: 14px;
+  height: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro__flowers img,
+  .intro__text span,
+  .garden-art__cloud,
+  .garden-art__bloom > *,
+  .garden-flower {
+    animation: none !important;
+    scale: 1;
+    opacity: 1;
+    transform: none;
   }
 }
 
@@ -3445,6 +4315,11 @@ header {
 
 /* Responsive */
 @media (max-width: 1024px) {
+  .bouquet {
+    left: auto;
+    right: 0;
+  }
+
   .music-artists {
     grid-template-columns: 1fr 1fr;
   }
@@ -3697,6 +4572,75 @@ header {
 }
 
 @media (max-width: 640px) {
+  .garden-hero {
+    height: 470px;
+  }
+
+  .garden-hero__text {
+    padding-top: 96px;
+  }
+
+  .garden-hero__title {
+    margin-left: 0;
+    font-size: 44px;
+    line-height: 52px;
+  }
+
+  .garden-hero__intro {
+    margin-left: 0;
+    font-size: 16px;
+  }
+
+  .garden-art {
+    height: 820px;
+  }
+
+  .garden-art__stage {
+    transform: translateY(-70px);
+  }
+
+  .bouquet-board {
+    height: auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding-top: 90px;
+  }
+
+  .bouquet-section__head {
+    top: 0;
+    left: 0;
+  }
+
+  .bouquet-section__hint {
+    font-size: 16px;
+  }
+
+  .bouquet-flower {
+    position: relative;
+    top: 0;
+    left: auto !important;
+    justify-self: center;
+    width: 76px;
+    height: 100px;
+  }
+
+  .bouquet-flower > * {
+    transform: scale(0.76);
+    transform-origin: 0 0;
+  }
+
+  .bouquet {
+    position: relative;
+    left: auto;
+    grid-column: 1 / -1;
+    justify-self: center;
+    margin-top: 16px;
+  }
+
+  .bouquet-reset {
+    right: 0;
+  }
+
   .album-lightbox {
     padding: 16px;
   }
