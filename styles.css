@@ -2589,14 +2589,14 @@ main,
 }
 
 .bouquet-section__hint {
-  margin-top: 7px;
-  font-size: 20px;
+  margin-top: 5px;
+  font-size: 16px;
   font-weight: 500;
 }
 
 .bouquet-flower {
   position: absolute;
-  top: 162px;
+  top: 163px;
   width: 58px;
   height: 110px;
   padding: 0;
@@ -4637,10 +4637,6 @@ main,
   .bouquet-section__head {
     top: 0;
     left: 0;
-  }
-
-  .bouquet-section__hint {
-    font-size: 16px;
   }
 
   .bouquet-flower {
