@@ -801,7 +801,9 @@ if (intro) {
     intro.remove();
   } else {
     intro.classList.add('is-running');
+    root.style.scrollBehavior = 'auto';
     window.scrollTo(0, 0);
+    root.style.scrollBehavior = '';
     const at = (ms, fn) => timers.push(setTimeout(fn, ms));
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       at(1200, finish);
@@ -827,47 +829,99 @@ if (bouquet) {
   const wrap = bouquet.querySelector('[data-layer="Cream-paper-wrap"]');
   const MAX_EXTRA = 24;
 
+  // Each loose flower's SVG split into its leaf and head, so an added flower can be redrawn
+  // on one long stem instead of its own short one.
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+  const parts = new Map();
+  flowers.forEach((flower) => {
+    const src = flower.querySelector('img').src;
+    fetch(src)
+      .then((res) => res.text())
+      .then((text) => {
+        const paths = Array.from(new DOMParser().parseFromString(text, 'image/svg+xml').querySelectorAll('path'));
+        // Paint order in the Figma export: stem, leaf, petals, centre.
+        parts.set(flower, { leaf: paths[1], head: paths.slice(2) });
+      })
+      .catch(() => { /* falls back to drawing the stem only */ });
+  });
+
+  // In the loose flower's own coordinates: the head's centre, and where the leaf meets the stem.
+  const HEAD = [29, 34];
+  const LEAF = [29.5, 75];
+  // Every stem gathers at the ribbon, hidden behind the paper wrap.
+  const TIE = [117, 205];
+
+  const svgEl = (name, attrs) => {
+    const el = document.createElementNS(SVG_NS, name);
+    Object.entries(attrs).forEach(([k, v]) => el.setAttribute(k, v));
+    return el;
+  };
+
   // The bouquet starts full (as in Figma); each flower dropped in adds another one,
   // tucked in behind the paper wrap at a random spot among the others.
   const place = (flower) => {
-    const extra = document.createElement('div');
-    extra.className = 'bouquet__extra';
-    extra.innerHTML = flower.innerHTML;
     const scale = 0.62 + Math.random() * 0.14;
-    // Flower head sits about 35px down the 130px flower, so on the bouquet it lands here:
-    const headAt = (cx, cy) => [cx, cy + 130 - 95 * scale];
     // Spread flowers out: try several random spots and keep the one with the most room
     // around it (away from the original flowers and any already added).
-    const taken = [[74, 103], [134, 67], [170, 119], [117, 139], [165, 92]];
-    bouquet.querySelectorAll('.bouquet__extra').forEach((el) => {
-      taken.push(headAt(parseFloat(el.style.left), parseFloat(el.style.top)));
+    const taken = [[74, 103], [134, 64], [175, 119], [117, 136], [165, 80]];
+    bouquet.querySelectorAll('.bouquet__add').forEach((el) => {
+      taken.push([parseFloat(el.dataset.x), parseFloat(el.dataset.y)]);
     });
-    let x = 0;
-    let y = 0;
+    let hx = 0;
+    let hy = 0;
     let best = -1;
     for (let i = 0; i < 16; i++) {
       const cx = 76 + Math.random() * 84;
-      const cy = Math.random() * 50;
-      const [hx, hy] = headAt(cx, cy);
-      const room = Math.min(...taken.map(([tx, ty]) => Math.hypot(hx - tx, hy - ty)));
-      if (room > best) { best = room; x = cx; y = cy; }
+      const cy = 55 + Math.random() * 55;
+      const room = Math.min(...taken.map(([tx, ty]) => Math.hypot(cx - tx, cy - ty)));
+      if (room > best) { best = room; hx = cx; hy = cy; }
     }
-    const rot = (x - 118) / 5 + (Math.random() * 8 - 4);
-    extra.style.cssText = `left:${x.toFixed(1)}px;top:${y.toFixed(1)}px;--s:${scale.toFixed(2)};--r:${rot.toFixed(1)}deg`;
 
-    // Where this flower's own stem ends (13px above its rotated base), and a line from
-    // there down to the tie, behind the wrap, so the flower is rooted at the bottom.
-    const rad = (rot * Math.PI) / 180;
-    const sx = x + 13 * scale * Math.sin(rad);
-    const sy = y + 130 - 13 * scale * Math.cos(rad);
-    const tx = 117 + (sx - 117) * 0.2;
-    const ty = 205;
-    const stemLine = document.createElement('div');
-    stemLine.className = 'bouquet__stem';
-    stemLine.style.cssText = `left:${sx.toFixed(1)}px;top:${(sy - 1).toFixed(1)}px;width:${Math.hypot(tx - sx, ty - sy).toFixed(1)}px;transform:rotate(${Math.atan2(ty - sy, tx - sx).toFixed(4)}rad)`;
+    // One smooth stem from the head down to the tie, with a slight random bow.
+    const [tx, ty] = TIE;
+    const len = Math.hypot(tx - hx, ty - hy);
+    const bow = (Math.random() * 2 - 1) * len * 0.06;
+    const nx = -(ty - hy) / len;
+    const ny = (tx - hx) / len;
+    const cx = (hx + tx) / 2 + nx * bow;
+    const cy = (hy + ty) / 2 + ny * bow;
+    const at = (t) => [
+      (1 - t) ** 2 * hx + 2 * (1 - t) * t * cx + t ** 2 * tx,
+      (1 - t) ** 2 * hy + 2 * (1 - t) * t * cy + t ** 2 * ty,
+    ];
+    // Angle of the stem (in degrees from straight down) at a point along it.
+    const tilt = (t) => {
+      const dx = 2 * (1 - t) * (cx - hx) + 2 * t * (tx - cx);
+      const dy = 2 * (1 - t) * (cy - hy) + 2 * t * (ty - cy);
+      return (Math.atan2(dy, dx) * 180) / Math.PI - 90;
+    };
+
+    const svg = svgEl('svg', { viewBox: '0 0 260 280', class: 'bouquet__add-art' });
+    svg.append(svgEl('path', {
+      d: `M${hx.toFixed(1)} ${hy.toFixed(1)}Q${cx.toFixed(1)} ${cy.toFixed(1)} ${tx} ${ty}`,
+      stroke: '#79A859',
+      'stroke-width': (5 * scale).toFixed(2),
+      'stroke-linecap': 'round',
+      fill: 'none',
+    }));
+    const art = parts.get(flower);
+    if (art) {
+      // The leaf sits on the stem the same distance below the head as on the loose flower,
+      // turned to follow the stem there; the head leans the way the stem leaves it.
+      const t = Math.min(0.9, ((LEAF[1] - HEAD[1]) * scale) / len);
+      const [lx, ly] = at(t);
+      const leaf = svgEl('g', { transform: `translate(${lx.toFixed(1)} ${ly.toFixed(1)}) rotate(${tilt(t).toFixed(1)}) scale(${scale.toFixed(2)}) translate(${-LEAF[0]} ${-LEAF[1]})` });
+      leaf.append(art.leaf.cloneNode());
+      const head = svgEl('g', { transform: `translate(${hx.toFixed(1)} ${hy.toFixed(1)}) rotate(${(tilt(0) * 0.7).toFixed(1)}) scale(${scale.toFixed(2)}) translate(${-HEAD[0]} ${-HEAD[1]})` });
+      art.head.forEach((path) => head.append(path.cloneNode()));
+      svg.append(leaf, head);
+    }
+
     const group = document.createElement('div');
     group.className = 'bouquet__add';
-    group.append(stemLine, extra);
+    group.dataset.x = hx.toFixed(1);
+    group.dataset.y = hy.toFixed(1);
+    group.append(svg);
     wrap.parentNode.insertBefore(group, wrap);
     const groups = bouquet.querySelectorAll('.bouquet__add');
     if (groups.length > MAX_EXTRA) groups[0].remove();

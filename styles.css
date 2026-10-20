@@ -2398,6 +2398,36 @@ header {
   position: absolute;
 }
 
+/* "Click the grass" hint above the right-hand hill; on narrow screens it slides left
+   so it stays 16px inside the right edge. */
+.garden-art__hint {
+  position: absolute;
+  left: min(950px, calc(600px + 50vw - 227px));
+  top: 392px;
+  width: 211px;
+}
+
+.garden-art__hint p {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #779fcc;
+  white-space: nowrap;
+}
+
+.garden-art__hint img {
+  position: absolute;
+  left: 14.77px;
+  top: 31.52px;
+}
+
+/* Once the hint slides left it sits under the "Currently designing" row, so drop it a little. */
+@media (max-width: 900px) {
+  .garden-art__hint {
+    top: 420px;
+  }
+}
+
 /* Hills, meadow and foreground stretch edge to edge on wide screens. */
 .garden-art__ground {
   left: calc(600px - 50vw - 15px) !important;
@@ -2566,9 +2596,9 @@ main,
 
 .bouquet-flower {
   position: absolute;
-  top: 150px;
-  width: 100px;
-  height: 130px;
+  top: 162px;
+  width: 58px;
+  height: 110px;
   padding: 0;
   border: 0;
   background: none;
@@ -2582,6 +2612,12 @@ main,
 
 .bouquet-flower > * {
   pointer-events: none;
+}
+
+.bouquet-flower img {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .bouquet-flower:hover,
@@ -2615,28 +2651,14 @@ main,
   transform: scale(1.05) rotate(-2deg);
 }
 
-/* Flowers added to the bouquet (script.js clones the loose flower in behind the wrapping). */
-.bouquet__extra {
+/* Flowers added to the bouquet: script.js redraws the loose flower on one long stem
+   that runs down to the ribbon, in behind the wrapping. */
+.bouquet__add-art {
   position: absolute;
-  z-index: 0;
-  width: 100px;
-  height: 130px;
-  transform-origin: 50% 100%;
-  translate: -50% 0;
-  scale: var(--s);
-  rotate: var(--r);
-  pointer-events: none;
-}
-
-/* Stem continuation drawn from the added flower's stem down to where the bouquet is tied,
-   hidden behind the paper wrap, so every added flower is rooted at the bottom. */
-.bouquet__stem {
-  position: absolute;
-  height: 2px;
-  border-radius: 2px;
-  background: #8fa97a;
-  transform-origin: 0 50%;
-  pointer-events: none;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
 }
 
 /* A new flower and its stem move together: they come in from above and slide down
@@ -4600,10 +4622,15 @@ main,
     transform: translateY(-70px);
   }
 
+  /* The hero text wraps taller here, so the hint drops below it, onto the hill. */
+  .garden-art__hint {
+    top: 446px;
+  }
+
   .bouquet-board {
     height: auto;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     padding-top: 90px;
   }
 
@@ -4621,13 +4648,8 @@ main,
     top: 0;
     left: auto !important;
     justify-self: center;
-    width: 76px;
-    height: 100px;
-  }
-
-  .bouquet-flower > * {
-    transform: scale(0.76);
-    transform-origin: 0 0;
+    width: 44px;
+    height: 84px;
   }
 
   .bouquet {
