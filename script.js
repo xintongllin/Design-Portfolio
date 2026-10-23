@@ -1032,13 +1032,25 @@ if (gardenArt) {
   planted.className = 'garden-art__planted';
   gardenArt.appendChild(planted);
 
-  const plant = (x, y, color, fixedSize) => {
-    const [petal, center] = color || COLORS[Math.floor(Math.random() * COLORS.length)];
-    const size = fixedSize || 16 + Math.random() * 12;
+  // Planted flowers match the little ones in the Figma garden: stem, one leaf and a head,
+  // drawn in a 40 x 64 box with the root at the bottom centre.
+  const STEM = 'M20 62C21.6 52 21.8 38 20 26';
+  const LEAF = 'M20.6 46C11.6 37 6.8 36.4 6.3 44.2C11 50.2 15.8 50.8 20.6 46Z';
+
+  const plant = (x, y) => {
+    const [petal, center] = COLORS[Math.floor(Math.random() * COLORS.length)];
+    // Head is 16-28px across; it's 31 of the box's 40 units wide.
+    const width = ((16 + Math.random() * 12) * 40) / 31;
+    // Leaf on either side, mirrored about the stem.
+    const leafSide = Math.random() < 0.5 ? '' : ' transform="matrix(-1 0 0 1 40.6 0)"';
     const flower = document.createElement('span');
     flower.className = 'garden-flower';
-    flower.style.cssText = `left:${x}px;top:${y}px;width:${size}px;--r:${(Math.random() * 50 - 25).toFixed(1)}deg`;
-    flower.innerHTML = `<svg viewBox="0 0 20.5738 22.4146" aria-hidden="true"><path d="${PETAL}" fill="${petal}"/><path d="${CENTER}" fill="${center}"/></svg>`;
+    flower.style.cssText = `left:${x}px;top:${y}px;width:${width.toFixed(1)}px;--r:${(Math.random() * 16 - 8).toFixed(1)}deg`;
+    flower.innerHTML = `<svg viewBox="0 0 40 64" aria-hidden="true">`
+      + `<path class="garden-flower__stem" d="${STEM}" pathLength="1" stroke="#79A859" stroke-width="3" stroke-linecap="round" fill="none"/>`
+      + `<g class="garden-flower__leaf"><path d="${LEAF}"${leafSide} fill="#79A859"/></g>`
+      + `<g class="garden-flower__head"><g transform="translate(4.6 -2.6) scale(1.5)"><path d="${PETAL}" fill="${petal}"/><path d="${CENTER}" fill="${center}"/></g></g>`
+      + '</svg>';
     planted.appendChild(flower);
 
     if (planted.children.length > MAX_FLOWERS) {

@@ -2489,12 +2489,14 @@ header {
   inset: 0;
 }
 
+/* The click point is the root: the stem draws itself up from there, the leaf unfurls
+   partway up, then the head pops open at the top. */
 .garden-flower {
   position: absolute;
   display: block;
-  translate: -50% -50%;
+  translate: -50% -100%;
+  transform-origin: 50% 100%;
   rotate: var(--r);
-  animation: gardenFlowerPop 0.35s ease-out both;
 }
 
 .garden-flower svg {
@@ -2503,6 +2505,32 @@ header {
   height: auto;
   overflow: visible;
   filter: drop-shadow(0 1px 1px rgba(60, 90, 40, 0.18));
+}
+
+.garden-flower__stem {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: gardenStemGrow 0.55s cubic-bezier(0.3, 0.7, 0.4, 1) forwards;
+}
+
+.garden-flower__leaf,
+.garden-flower__head {
+  transform-box: view-box;
+  scale: 0;
+}
+
+.garden-flower__leaf {
+  transform-origin: 20.6px 46px;
+  animation: gardenFlowerPop 0.35s ease-out 0.25s forwards;
+}
+
+.garden-flower__head {
+  transform-origin: 20px 15px;
+  animation: gardenFlowerPop 0.4s ease-out 0.45s forwards;
+}
+
+@keyframes gardenStemGrow {
+  to { stroke-dashoffset: 0; }
 }
 
 .garden-flower.is-leaving {
@@ -2718,12 +2746,19 @@ main,
   .intro__flowers img,
   .intro__text span,
   .garden-art__cloud,
-  .garden-art__bloom > *,
-  .garden-flower {
+  .garden-art__bloom > * {
     animation: none !important;
     scale: 1;
     opacity: 1;
     transform: none;
+  }
+
+  .garden-flower__stem,
+  .garden-flower__leaf,
+  .garden-flower__head {
+    animation: none !important;
+    stroke-dashoffset: 0;
+    scale: 1;
   }
 }
 
