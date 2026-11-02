@@ -1069,7 +1069,53 @@ if (gardenArt) {
     plant(x, y);
   });
 
-  // On arrival, the little flowers already in the garden pop up one by one,
+  // A passing cursor is a little breeze: flowers near it lean softly in the direction the
+  // mouse is moving, then settle back to rest. Covers planted flowers and the single Figma
+  // ones (the wide two-flower row is left out, it would swing as one piece).
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const REACH = 70;
+    const swaying = new WeakSet();
+    const swayables = () => [
+      ...planted.querySelectorAll('.garden-flower svg'),
+      ...Array.from(gardenArt.querySelectorAll('.garden-art__bloom')).filter((el) => el.offsetWidth < 100),
+    ];
+    let last = null;
+    let queued = null;
+
+    const breeze = () => {
+      const { x, y, dx } = queued;
+      queued = null;
+      swayables().forEach((el) => {
+        if (swaying.has(el)) return;
+        const r = el.getBoundingClientRect();
+        const cx = r.left + r.width / 2;
+        const dist = Math.hypot(x - cx, y - (r.top + r.height / 2));
+        if (dist > REACH + r.width / 2) return;
+        // Lean with the mouse's movement; a cursor that's barely moving pushes the flower away from it.
+        const dir = Math.abs(dx) > 1 ? Math.sign(dx) : Math.sign(cx - x) || 1;
+        const angle = dir * (2 + 3 * (1 - Math.min(1, dist / (REACH + r.width / 2))));
+        swaying.add(el);
+        // A soft lean and a gentle settle, each step eased in and out so it never snaps.
+        const soft = 'cubic-bezier(0.45, 0, 0.55, 1)';
+        el.animate([
+          { rotate: '0deg', easing: soft },
+          { rotate: `${angle}deg`, offset: 0.35, easing: soft },
+          { rotate: `${-angle * 0.3}deg`, offset: 0.7, easing: soft },
+          { rotate: '0deg' },
+        ], { duration: 1800 }).finished.then(() => swaying.delete(el));
+      });
+    };
+
+    document.addEventListener('pointermove', (e) => {
+      if (e.pointerType === 'touch') return;
+      const dx = last ? e.clientX - last : 0;
+      last = e.clientX;
+      if (!queued) requestAnimationFrame(breeze);
+      queued = { x: e.clientX, y: e.clientY, dx };
+    });
+  }
+
+  // On arrival, the flowers already in the garden grow in one by one,
   // hinting that the grass can be clicked.
   const showcase = () => gardenArt.classList.add('is-blooming');
   if (document.documentElement.classList.contains('intro-on')) {

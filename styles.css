@@ -2473,14 +2473,48 @@ header {
   to { translate: 100vw 0; }
 }
 
-/* The three small Figma flowers start hidden and pop up in turn (script.js adds .is-blooming). */
-.garden-art__bud > * {
-  scale: 0;
-  transform-origin: 50% 50%;
+/* Flowers sway from the base of the stem when the cursor breezes past (script.js). */
+.garden-art__bloom {
+  transform-origin: 50% 100%;
 }
 
-.garden-art.is-blooming .garden-art__bud > * {
-  animation: gardenFlowerPop 0.35s ease-out var(--d) forwards;
+/* The Figma flowers start hidden and grow in one by one from the root, staggered by --d
+   (script.js adds .is-blooming): the stem draws up, the leaf unfurls, then the head opens. */
+.garden-art__sprout svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.sprout__stem {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.sprout__leaf,
+.sprout__head {
+  transform-box: fill-box;
+  scale: 0;
+}
+
+.sprout__leaf {
+  transform-origin: 100% 40%;
+}
+
+.sprout__head {
+  transform-origin: 50% 100%;
+}
+
+.garden-art.is-blooming .sprout__stem {
+  animation: gardenStemGrow 0.55s cubic-bezier(0.3, 0.7, 0.4, 1) var(--d) forwards;
+}
+
+.garden-art.is-blooming .sprout__leaf {
+  animation: gardenFlowerPop 0.35s ease-out calc(var(--d) + 0.25s) forwards;
+}
+
+.garden-art.is-blooming .sprout__head {
+  animation: gardenFlowerPop 0.4s ease-out calc(var(--d) + 0.45s) forwards;
 }
 
 /* Flowers planted by clicking the grass (script.js). */
@@ -2500,6 +2534,7 @@ header {
 }
 
 .garden-flower svg {
+  transform-origin: 50% 100%;
   display: block;
   width: 100%;
   height: auto;
@@ -2755,7 +2790,10 @@ main,
 
   .garden-flower__stem,
   .garden-flower__leaf,
-  .garden-flower__head {
+  .garden-flower__head,
+  .sprout__stem,
+  .sprout__leaf,
+  .sprout__head {
     animation: none !important;
     stroke-dashoffset: 0;
     scale: 1;
